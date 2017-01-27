@@ -1,0 +1,27 @@
+{
+  "name": "sourcebroker/restrictfe",
+  "type": "typo3-cms-extension",
+  "description": "Allows to see FE only for logged BE users",
+  "license": [
+    "GPL-2.0+"
+  ],
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "restrictfe"
+  ],
+  "authors": [
+    {
+      "name": "Krystian Szymukowicz",
+      "email": "k.szymukowicz@gmail.com"
+    }
+  ],
+  "require": {
+    "typo3/cms-core": ">=6.2.0 || <7.6.99"
+  },
+  "autoload": {
+    "psr-4": {
+      "SourceBroker\\Restrictfe\\": "Classes/"
+    }
+  }
+}

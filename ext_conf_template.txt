@@ -1,0 +1,8 @@
+# cat=basic/40; type=input; label=LLL:EXT:restrictfe/Resources/Private/Language/locallang_be.xml:extmng.templatesRelativePath
+templatesRelativePath =
+
+# cat=basic/50; type=input; label=LLL:EXT:restrictfe/Resources/Private/Language/locallang_be.xml:extmng.ipAllowed
+ipAllowed =
+
+# cat=basic/60; type=input; label=LLL:EXT:restrictfe/Resources/Private/Language/locallang_be.xml:extmng.headerAllowed
+headerAllowed =

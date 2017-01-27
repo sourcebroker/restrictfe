@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+    <meta type="array">
+        <description>Labels</description>
+    </meta>
+    <data type="array">
+        <languageKey index="default" type="array">
+            <label index="extmng.templatesRelativePath">Relative path to template: Relative path to template files
+                folder (with slash at the end eg: fileadmin/mytemplates/)
+            </label>
+            <label index="extmng.ipAllowed">IPs allowed: Comma separatd IPs allowed to see frontend without
+                authorisation. Supports mask like 192.168.1.*
+            </label>
+            <label index="extmng.headerAllowed">Headers allowed: Comma separaetd list of headers allowed to see frontend
+                without authorisation. (in the client you need to put header like "Tx-RestrictFe: value"
+            </label>
+        </languageKey>
+    </data>
+</T3locallang>
