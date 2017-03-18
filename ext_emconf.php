@@ -1,8 +1,8 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'Allows to see FE only for logged BE users.',
-    'description' => 'When you have stages like LOCAL/DEV/LIVE you may want DEV to be access restricted. One way is to generate htaccess for that. The second is to use this extension which allows only logged BE user to see FE.',
+    'title' => 'Restrict access for staging and production instances',
+    'description' => 'When you have staging instances you may want them to be access restricted. One way is to generate htaccess passwords - the second is to use this ext.',
     'author' => 'SourceBroker Team',
     'author_email' => 'office@sourcebroker.net',
     'author_company' => 'SourceBroker',
