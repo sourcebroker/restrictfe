@@ -104,8 +104,8 @@ Use either 'enabled' or 'exceptions' because if you set
 ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions']``
 are not parsed.
 
-Available conditions
-~~~~~~~~~~~~~~~~~~~~
+Conditions
+~~~~~~~~~~
 
 backendUser
 +++++++++++
