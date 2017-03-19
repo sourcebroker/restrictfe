@@ -137,10 +137,10 @@ Available conditions
 
    - *Example*
      
-      ::
+     ::
 
       $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
-       'backendUser' => true
+      'backendUser' => true
       ]; 
 
 - **domain**
@@ -156,8 +156,8 @@ Available conditions
 
     ::
 
-      $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [       
-      '!domain' => ['sub.example.com']];``
+       $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [       
+       '!domain' => ['sub.example.com']];``
 
 
 -  **get**
@@ -171,11 +171,11 @@ Available conditions
    - | *Example*
      | Allow only request with GET param secret=999 to access frontend.
 
-       ::
+     ::
 
-       $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
-           'get' => 'secret=999'
-       ];
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
+            'get' => 'secret=999'
+        ];
 
 -  **header**
 
@@ -188,7 +188,7 @@ Available conditions
    - | *Example*
      | Allow only request with HTTP header MYHEADER=99 to access frontend.
 
-       ::
+     ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'header' => 'MYHEADER=99'
@@ -209,7 +209,7 @@ Available conditions
      | Allow frontend access only for IP 11.11.11.11 or 22.22.22.22 or
        33.33.33.33
 
-       ::
+     ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'ip' => [
@@ -221,7 +221,7 @@ Available conditions
 
        Block frontend access to traffic from IP range 34.34.0.0/16
 
-       ::
+     ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            '!ip' => [
@@ -240,7 +240,7 @@ Available conditions
    -  | *Example*
       | Allow only request with POST param secret=999 to access frontend.
  
-        ::
+      ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'post' => 'secret=999'
@@ -259,9 +259,9 @@ Available conditions
         1. Useful on production instance when we want to add and
         translate new language.
 
-        ::
+      ::
    
-        ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['!sysLanguageUid' => 1];``
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['!sysLanguageUid' => 1];
 
 5. Configuration examples
 -------------------------
