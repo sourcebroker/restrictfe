@@ -17,13 +17,14 @@ instances.
 
 **For staging instances**
 
-| You will find restrictfe useful if you have staging instances and you
-  want to protect frontend content form public but at the same time:
-| \* allow to show frontend to authorized backend users, \* allow to
-  show frontend to IP of your VPN, \* allow to show frontend to your
-  external spiders for crawling, \* allow some payment systems to send
-  confirm link to your application endpoint, \* allow Google Page Speed
-  to make tests, \* etc.
+You will find restrictfe useful if you have staging instances and you want to protect frontend content form public but at the same time:
+
+* allow to show frontend to authorized backend users, 
+* allow to show frontend to IP of your VPN, 
+* allow to show frontend to your external spiders for crawling, 
+* allow some payment systems to send confirm link to your application endpoint,
+* allow Google Page Speed to make tests, 
+* etc.
 
 **For production instances**
 
@@ -105,10 +106,10 @@ Available conditions
 
 -  **backendUser**
 
--  | *Argument*
-   | Activate (boolean)
+  -  | *Argument*
+     | Activate (boolean)
 
--  *Note*
+  -  *Note*
 
    -  If activated then frontend will be visible to authorized backend
       users. Only single authorization is needed and user can log out
@@ -134,7 +135,7 @@ Available conditions
       need to authorize to each subdomain independently. Example:
       ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['cookie']['domain'] = '.example.com';``
 
--  *Example*
+  -  *Example*
 
    ::
 
@@ -144,30 +145,33 @@ Available conditions
 
 -  **domain**
 
-   -  | *Argument*
-      | Domain name (string)
+   - | *Argument*
+     | Domain name (string)
 
-   -  | *Note*
-      | You can negate this condition with !domain.
+   - | *Note*
+     | You can negate this condition with !domain.
 
-   -  *Example*
+   - | *Example*
+     | Allow frontend access to all except traffic to domain sub.example.com   
 
-   | Allow frontend access to all except traffic to domain
-     sub.example.com
-   | ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [       '!domain' => [           'sub.example.com',       ]   ];``
+     ::
+
+      $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [       
+      '!domain' => ['sub.example.com']];``
+
 
 -  **get**
 
--  | *Argument*
-   | "getName=getValue" pairs (string)
+  -  | *Argument*
+     | "getName=getValue" pairs (string)
 
--  | *Note*
-   | You can negate this condition with !get.
+  -  | *Note*
+     | You can negate this condition with !get.
 
--  | *Example*
-   | Allow only request with GET param secret=999 to access frontend.
+  -  | *Example*
+     | Allow only request with GET param secret=999 to access frontend.
 
-   ::
+     ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'get' => 'secret=999'
@@ -175,16 +179,16 @@ Available conditions
 
 -  **header**
 
--  | *Argument*
-   | "headerName=headerValue" pairs (string)
+  -  | *Argument*
+     | "headerName=headerValue" pairs (string)
 
--  | *Note*
-   | You can negate this condition with !header.
+  -  | *Note*
+     | You can negate this condition with !header.
 
--  | *Example*
-   | Allow only request with HTTP header MYHEADER=99 to access frontend.
+  -  | *Example*
+     | Allow only request with HTTP header MYHEADER=99 to access frontend.
 
-   ::
+     ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'header' => 'MYHEADER=99'
@@ -192,20 +196,20 @@ Available conditions
 
 -  **ip**
 
--  | *Argument*
-   | Single IP with mask (string), comma separated list of IPs with
-     mask(string), array of IPs with mask (array string)
+  -  | *Argument*
+     | Single IP with mask (string), comma separated list of IPs with
+       mask(string), array of IPs with mask (array string)
 
--  | *Note*
-   | In the background a ``GeneralUtility::cmpIP()`` is used so you can
-     use \* and mask for IP like 12.12.45.\* or 13.55.0.0/16.
-   | You can negate this condition with !ip.
+  -  | *Note*
+     | In the background a ``GeneralUtility::cmpIP()`` is used so you can
+       use \* and mask for IP like 12.12.45.\* or 13.55.0.0/16.
+     | You can negate this condition with !ip.
 
--  | *Example*
-   | Allow frontend access only for IP 11.11.11.11 or 22.22.22.22 or
-     33.33.33.33
+  -  | *Example*
+     | Allow frontend access only for IP 11.11.11.11 or 22.22.22.22 or
+       33.33.33.33
 
-   ::
+     ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'ip' => [
@@ -227,14 +231,14 @@ Available conditions
 
 -  **post**
 
--  | *Argument*
-   | "getName=getValue" pairs (string)
+  -  | *Argument*
+     | "getName=getValue" pairs (string)
 
--  | *Note*
-   | You can negate this condition with !post.
+  -  | *Note*
+     | You can negate this condition with !post.
 
--  | *Example*
-   | Allow only request with POST param secret=999 to access frontend.
+  -  | *Example*
+     | Allow only request with POST param secret=999 to access frontend.
 
    ::
 
@@ -254,7 +258,10 @@ Available conditions
       | Allow frontend access to all except traffic to language with uid
         1. Useful on production instance when we want to add and
         translate new language.
-        ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [   '!sysLanguageUid' => 1   ];``
+
+     ::
+   
+     ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['!sysLanguageUid' => 1];``
 
 5. Configuration examples
 -------------------------
