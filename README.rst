@@ -106,55 +106,55 @@ Available conditions
 
 -  **backendUser**
 
-  -  | *Argument*
-     | Activate (boolean)
+   -  | *Argument*
+      | Activate (boolean)
 
-  -  *Note*
+   -  *Note*
 
-   -  If activated then frontend will be visible to authorized backend
-      users. Only single authorization is needed and user can log out
-      because special cookie will allow him to see frontend. That also
-      means that BE user can unlog from backend and still see the
-      frontend - its crucial for good testing of caching bugs.
+      - If activated then frontend will be visible to authorized backend
+        users. Only single authorization is needed and user can log out
+        because special cookie will allow him to see frontend. That also
+        means that BE user can unlog from backend and still see the
+        frontend - its crucial for good testing of caching bugs.
 
-   -  For backend user you can check “Clear BE session after login” in
-      backend user record. This will unlog BE user from backend just
-      after authorization. This is useful if you want to create only
-      kind of "preview" BE user. This user does not need to have access
-      to any BE module and do not needs rights to read/write any table.
-      All he needs is only to be mounted to pagtree.
+      - For backend user you can check “Clear BE session after login” in
+        backend user record. This will unlog BE user from backend just
+        after authorization. This is useful if you want to create only
+        kind of "preview" BE user. This user does not need to have access
+        to any BE module and do not needs rights to read/write any table.
+        All he needs is only to be mounted to pagtree.
 
-   -  As stated in last points after backend user authorization special
-      cookie is set that allows to access frontend even after backend
-      user will be logged off. You can set each aspect of this cookie by
-      setting
-      ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['cookie']``
-      array. For example you can set the cookie for multiple subdomains
-      which means that user needs to authorize only once to have access
-      to all protected subdomains. With htaccess password user would
-      need to authorize to each subdomain independently. Example:
-      ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['cookie']['domain'] = '.example.com';``
+      - As stated in last points after backend user authorization special
+        cookie is set that allows to access frontend even after backend
+        user will be logged off. You can set each aspect of this cookie by
+        setting
+        ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['cookie']``
+        array. For example you can set the cookie for multiple subdomains
+        which means that user needs to authorize only once to have access
+        to all protected subdomains. With htaccess password user would
+        need to authorize to each subdomain independently. Example:
+        ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['cookie']['domain'] = '.example.com';``
 
-  -  *Example*
+   - *Example*
+     
+      ::
 
-   ::
+      $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
+       'backendUser' => true
+      ]; 
 
-       $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
-           'backendUser' => true
-       ]; 
+- **domain**
 
--  **domain**
+  - | *Argument*
+    | Domain name (string)
 
-   - | *Argument*
-     | Domain name (string)
+  - | *Note*
+    | You can negate this condition with !domain.
 
-   - | *Note*
-     | You can negate this condition with !domain.
+  - | *Example*
+    | Allow frontend access to all except traffic to domain sub.example.com   
 
-   - | *Example*
-     | Allow frontend access to all except traffic to domain sub.example.com   
-
-     ::
+    ::
 
       $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [       
       '!domain' => ['sub.example.com']];``
@@ -162,16 +162,16 @@ Available conditions
 
 -  **get**
 
-  -  | *Argument*
+   - | *Argument*
      | "getName=getValue" pairs (string)
 
-  -  | *Note*
+   - | *Note*
      | You can negate this condition with !get.
 
-  -  | *Example*
+   - | *Example*
      | Allow only request with GET param secret=999 to access frontend.
 
-     ::
+       ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'get' => 'secret=999'
@@ -179,16 +179,16 @@ Available conditions
 
 -  **header**
 
-  -  | *Argument*
+   - | *Argument*
      | "headerName=headerValue" pairs (string)
 
-  -  | *Note*
+   - | *Note*
      | You can negate this condition with !header.
 
-  -  | *Example*
+   - | *Example*
      | Allow only request with HTTP header MYHEADER=99 to access frontend.
 
-     ::
+       ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'header' => 'MYHEADER=99'
@@ -196,20 +196,20 @@ Available conditions
 
 -  **ip**
 
-  -  | *Argument*
+   - | *Argument*
      | Single IP with mask (string), comma separated list of IPs with
        mask(string), array of IPs with mask (array string)
 
-  -  | *Note*
+   - | *Note*
      | In the background a ``GeneralUtility::cmpIP()`` is used so you can
        use \* and mask for IP like 12.12.45.\* or 13.55.0.0/16.
      | You can negate this condition with !ip.
 
-  -  | *Example*
+   - | *Example*
      | Allow frontend access only for IP 11.11.11.11 or 22.22.22.22 or
        33.33.33.33
 
-     ::
+       ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'ip' => [
@@ -219,9 +219,9 @@ Available conditions
            ]
        ];
 
-   Block frontend access to traffic from IP range 34.34.0.0/16
+       Block frontend access to traffic from IP range 34.34.0.0/16
 
-   ::
+       ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            '!ip' => [
@@ -231,16 +231,16 @@ Available conditions
 
 -  **post**
 
-  -  | *Argument*
-     | "getName=getValue" pairs (string)
+   -  | *Argument*
+      | "getName=getValue" pairs (string)
 
-  -  | *Note*
-     | You can negate this condition with !post.
+   -  | *Note*
+      | You can negate this condition with !post.
 
-  -  | *Example*
-     | Allow only request with POST param secret=999 to access frontend.
-
-   ::
+   -  | *Example*
+      | Allow only request with POST param secret=999 to access frontend.
+ 
+        ::
 
        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'post' => 'secret=999'
@@ -259,9 +259,9 @@ Available conditions
         1. Useful on production instance when we want to add and
         translate new language.
 
-     ::
+        ::
    
-     ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['!sysLanguageUid' => 1];``
+        ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['!sysLanguageUid' => 1];``
 
 5. Configuration examples
 -------------------------
