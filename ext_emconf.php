@@ -1,7 +1,7 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'Restrict access for staging and production instances',
+    'title' => 'Restrict access for staging and produ instances',
     'description' => 'When you have staging instances you may want them to be access restricted. One way is to generate htaccess passwords - the second is to use this ext.',
     'author' => 'SourceBroker Team',
     'author_email' => 'office@sourcebroker.net',

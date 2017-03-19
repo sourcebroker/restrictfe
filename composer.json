@@ -1,7 +1,7 @@
 {
   "name": "sourcebroker/restrictfe",
   "type": "typo3-cms-extension",
-  "description": "Allows to see FE only for logged BE users",
+  "description": "Restrict access for staging and produ instances",
   "license": [
     "GPL-2.0+"
   ],
