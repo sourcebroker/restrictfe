@@ -1,14 +1,17 @@
 {
   "name": "sourcebroker/restrictfe",
   "type": "typo3-cms-extension",
-  "description": "Restrict access for staging and produ instances",
+  "description": "This extension blocks access to frontend and allows to show it only to some defined exception's like if the request is from an authorized backend user, has specific IP, header, domain, language or GET/POST vars. Useful to protect your staging and production instances.",
   "license": [
     "GPL-2.0+"
   ],
   "keywords": [
     "TYPO3",
     "extension",
-    "restrictfe"
+    "restrictfe",
+    "staging",
+    "production",
+    "instances"
   ],
   "authors": [
     {

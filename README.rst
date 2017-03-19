@@ -4,9 +4,10 @@ TYPO3 Extension ``restrictfe``
 1. What does it do?
 -------------------
 
-This extension allows to show TYPO3 frontend only to some defined
-"exception's conditions" like if the request is from an authorized
-backend user, specific IP, domain, language or GET/POST vars.
+This extension blocks access to frontend and allows to show it
+only to some defined exception's like if the request is from
+an authorized backend user, has specific IP, header, domain, language
+or GET/POST vars. Useful to protect your staging and production instances.
 
 2. How this can be useful for me?
 ---------------------------------
@@ -152,7 +153,7 @@ Available conditions
     | You can negate this condition with !domain.
 
   - | *Example*
-    | Allow frontend access to all except traffic to domain sub.example.com   
+    | Allow frontend access to all except traffic to domain sub.example.com
 
     ::
 
@@ -219,7 +220,8 @@ Available conditions
            ]
        ];
 
-       Block frontend access to traffic from IP range 34.34.0.0/16
+
+     Block frontend access to traffic from IP range 34.34.0.0/16
 
      ::
 
