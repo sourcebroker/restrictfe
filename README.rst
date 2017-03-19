@@ -294,7 +294,7 @@ Production instance that must have domain "sub.example.com" not avaliable public
             '!domain' => 'sub.example.com',
     ];
 
-Staging instance that needs to unblock Google Page Speed Insights
+Staging instance that needs to unblock frontend for Google Page Speed Insights
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
@@ -306,7 +306,7 @@ Staging instance that needs to unblock Google Page Speed Insights
 Then of course the url you give google for testing is:
 https://www.example.com/?secret=91009123
 
-Staging instance that needs to allow frontend for IP=11.11.11.11
+Staging instance that needs to unblock frontend for IP=11.11.11.11
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
