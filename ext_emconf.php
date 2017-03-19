@@ -1,13 +1,13 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'Restrict access for staging and produ instances',
-    'description' => 'When you have staging instances you may want them to be access restricted. One way is to generate htaccess passwords - the second is to use this ext.',
+    'title' => 'Restrict access for staging and prod instances',
+    'description' => 'When you have staging instances you may want them to be access restricted. One way is to generate htaccess passwords - the second is to use this ext. Docs: https://github.com/sourcebroker/restrictfe',
     'author' => 'SourceBroker Team',
     'author_email' => 'office@sourcebroker.net',
     'author_company' => 'SourceBroker',
     'category' => 'fe',
-    'version' => '6.0.2',
+    'version' => '6.0.3',
     'shy' => '',
     'priority' => '',
     'module' => '',
