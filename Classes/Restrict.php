@@ -67,6 +67,7 @@ class Restrict
             ],
             'exceptions' => [
                 'backendUser' => true,
+                'ip'          => '127.0.0.1',
             ],
         ];
 
