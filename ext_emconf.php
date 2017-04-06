@@ -7,7 +7,7 @@ $EM_CONF[$_EXTKEY] = [
     'author_email'     => 'office@sourcebroker.net',
     'author_company'   => 'SourceBroker',
     'category'         => 'fe',
-    'version'          => '6.0.6',
+    'version'          => '7.0.0',
     'shy'              => '',
     'priority'         => '',
     'module'           => '',
@@ -20,7 +20,7 @@ $EM_CONF[$_EXTKEY] = [
     'clearCacheOnLoad' => 0,
     'constraints'      => [
         'depends' => [
-            'typo3' => '6.2.0-8.6.99',
+            'typo3' => '6.2.0-8.7.99',
         ],
         'conflicts' => [],
         'suggests'  => [],

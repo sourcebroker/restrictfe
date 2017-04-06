@@ -52,7 +52,7 @@ template so you can show whatever you like when frontend user is
 requesting restricted content.
 
 Installation
--------------
+------------
 
 Just use composer or download by Extension Manager.
 
@@ -75,7 +75,7 @@ Notice! Put this config in the file that is included only on live
 instance!
 
 Documentation
---------------
+-------------
 
 Exceptions
 ~~~~~~~~~~
@@ -93,16 +93,6 @@ AND'ed.
 
 **The result of this condition checks is used to decide if frontend
 should be blocked or not. If its true then frontend is not blocked.**
-
-If you have very complicated conditions that can not be done with
-"exceptions" then you can create your own conditions (and put them for
-example in ext\_localconf.php and activate frontend protection with
-``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['enable'] = true``.
-
-Use either 'enabled' or 'exceptions' because if you set
-``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['enable']`` then
-``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions']``
-are not parsed.
 
 Conditions
 ~~~~~~~~~~
@@ -295,7 +285,7 @@ Production instance that must have domain "sub.example.com" not avaliable public
     ];
 
 Staging instance that needs to unblock frontend for Google Page Speed Insights
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -369,3 +359,13 @@ To-Do list
 3. Add support for detecting browser language to see proper lang on "you
    must log to see the website" warning screen.
 4. Make unit tests for conditions array.
+
+
+Changelist
+----------
+
+7.0.0.
+~~~~~~
+
+   a) Remove "enable" $GLOBALS['TYPO3\_CONF\_VARS']['EXTCONF']['restrictfe']['enable']
+   b) Set 127.0.0.1 as default IP that is allowed to see frontend without authorization.
