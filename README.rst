@@ -326,6 +326,31 @@ ip and header are AND'ed. array values inside ip and header are OR'ed.
             ]
     ];
 
+
+Default Configuration
+~~~~~~~~~~~~~~~~~~~~~
+
+By default following configuration is applied. You can change every
+element of this array using ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']``
+
+  ::
+
+        [
+            'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe').'Resources/Private/Templates/Restricted.html',
+            'cookie'       => [
+                'expire'   => time() + 86400 * 30,
+                'path'     => '/',
+                'domain'   => null,
+                'secure'   => false,
+                'httponly' => true,
+            ],
+            'exceptions' => [
+                'backendUser' => true,
+                'ip'          => '127.0.0.1',
+            ],
+        ];
+
+
 FAQ
 ---
 
@@ -364,8 +389,13 @@ To-Do list
 Changelist
 ----------
 
-7.0.0.
-~~~~~~
+7.0.1
+~~~~~
 
-   a) Remove "enable" $GLOBALS['TYPO3\_CONF\_VARS']['EXTCONF']['restrictfe']['enable']
-   b) Set 127.0.0.1 as default IP that is allowed to see frontend without authorization.
+a) Update documentation with default settings.
+
+7.0.0
+~~~~~
+
+a) Remove "enable" $GLOBALS['TYPO3\_CONF\_VARS']['EXTCONF']['restrictfe']['enable']
+b) Set 127.0.0.1 as default IP that is allowed to see frontend without authorization.
