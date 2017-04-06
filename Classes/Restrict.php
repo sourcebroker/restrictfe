@@ -94,15 +94,9 @@ class Restrict
 
         // By default access to frontend is blocked
         $blockFrontendAccess = true;
-        // The 'enable' has precedence over 'exceptions'
+        // The 'enable' from previous versions of extension is deprecated
         if (isset($this->config['enable'])) {
-            if (is_bool($this->config['enable'])) {
-                if (false === $this->config['enable']) {
-                    $blockFrontendAccess = false;
-                }
-            } else {
-                throw new \Exception('Extension restrictfe: The $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'restrictfe\'][\'enable\'] must be boolean type.');
-            }
+            throw new \Exception('Extension restrictfe: The $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'restrictfe\'][\'enable\'] is deprecated. Read docs on https://github.com/sourcebroker/restrictfe');
         } else {
             if (isset($this->config['exceptions']) && is_array($this->config['exceptions'])) {
                 if (true == $this->checkRules($this->config['exceptions'])) {
