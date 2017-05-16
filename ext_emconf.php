@@ -7,7 +7,7 @@ $EM_CONF[$_EXTKEY] = [
     'author_email'     => 'office@sourcebroker.net',
     'author_company'   => 'SourceBroker',
     'category'         => 'fe',
-    'version'          => '7.0.1',
+    'version'          => '7.1.0',
     'shy'              => '',
     'priority'         => '',
     'module'           => '',
@@ -24,10 +24,5 @@ $EM_CONF[$_EXTKEY] = [
         ],
         'conflicts' => [],
         'suggests'  => [],
-    ],
-    'autoload' => [
-        'psr-4' => [
-            'SourceBroker\\Restrictfe\\' => 'Classes',
-        ],
     ],
 ];

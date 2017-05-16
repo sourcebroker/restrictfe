@@ -20,7 +20,8 @@ instances.
 
 **For staging instances**
 
-You will find restrictfe useful if you have staging instances and you want to protect frontend content form public but at the same time:
+You will find restrictfe useful if you have staging instances and you want to
+protect frontend content form public but at the same time:
 
 * allow to show frontend to authorized backend users,
 * allow to show frontend to IP of your VPN,
@@ -71,8 +72,15 @@ production instance with simple line:
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['*' => true];
 
-Notice! Put this config in the file that is included only on live
-instance!
+Put this config in the file that is included only on live instance!
+
+**Notice!**
+restrictfe protection is not working if $_SERVER['REMOTE_ADDR'] == 127.0.0.1 so if you
+are working on your local instance restrictfe is disabled. If you want to to make testing
+and enable it on your local instance insert following line in typo3conf/AdditionalConfiguration.php
+or in some extension ext_localconf.php:
+``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions']['ip'] = '__UNSET';``
+
 
 Documentation
 -------------
@@ -244,6 +252,25 @@ post
        'post' => 'secret=999'
     ];
 
+requestUri
+++++++++++
+
+-  | *Argument*
+   |  uri part after domain without leading slash (string)
+
+-  | *Note*
+   | You can negate this condition with !requestUri. The argument is search for only on begining of text.
+
+-  | *Example*
+   | Allow only request starting with api/ to be processed.
+
+   ::
+
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
+       'requestUri' => ['api/', 'api2/']
+    ];
+
+
 sysLanguageUid
 ++++++++++++++
 
@@ -354,9 +381,12 @@ element of this array using ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe
 FAQ
 ---
 
--  **Extension does not work. The frontend is not blocked at all. What
-   is wrong?** Be sure you are logged from BE and the cookie
-   "restrictfe" is deleted.
+-  **Extension does not work. The frontend is not blocked at all. What is wrong?**
+   Be sure you are logged from BE and the cookie "restrictfe" is deleted. Remember also that
+   restrictfe protection is not working if $_SERVER['REMOTE_ADDR'] == 127.0.0.1 so if you
+   are working on your local instance restrictfe is disabled. To enable it on your local instance
+   insert folowing line:
+   ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions']['ip'] = '__UNSET';``
 
 -  **I am logged out from BE but still frontend is not blocked, why?**
    From 3.0.0. version after first successful login a cookie is set
@@ -369,7 +399,7 @@ Important
 
 In version below 5.0 there were settings kept in Extension Manager with
 IP / header. You must move them manually to
-$GLOBALS['TYPO3\_CONF\_VARS']['EXTCONF']['restrictfe']['exceptions']
+``$GLOBALS['TYPO3\_CONF\_VARS']['EXTCONF']['restrictfe']['exceptions']``
 
 Known problems
 --------------
@@ -381,13 +411,20 @@ To-Do list
 
 1. Add userFunc for conditions
 2. Add pregmatch for all conditions like '~domain'
-3. Add support for detecting browser language to see proper lang on "you
-   must log to see the website" warning screen.
+3. Add support for detecting browser language to see proper lang on
+   "you must log to see the website" warning screen.
 4. Make unit tests for conditions array.
 
 
 Changelist
 ----------
+
+7.1.0
+~~~~~
+
+a) Add "requestUri" condition and update documentation for "requestUri" usage.
+a) Update documentation with info that restrictfe is diabled for local instances.
+
 
 7.0.1
 ~~~~~
