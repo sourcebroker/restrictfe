@@ -252,14 +252,14 @@ post
        'post' => 'secret=999'
     ];
 
-requestUrl
+requestUri
 ++++++++++
 
 -  | *Argument*
-   |  url part after domain without leading slash (string)
+   |  uri part after domain without leading slash (string)
 
 -  | *Note*
-   | You can negate this condition with !requestUrl. The argument is search for only on begining of text.
+   | You can negate this condition with !requestUri. The argument is search for only on begining of text.
 
 -  | *Example*
    | Allow only request starting with api/ to be processed.
@@ -267,7 +267,7 @@ requestUrl
    ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
-       'requestUrl' => ['api/', 'api2/']
+       'requestUri' => ['api/', 'api2/']
     ];
 
 
