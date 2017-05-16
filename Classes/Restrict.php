@@ -205,6 +205,29 @@ class Restrict
                 }
                 break;
 
+            case 'requestUri':
+                foreach ($conditionValues as $conditionValue) {
+                    if (GeneralUtility::isFirstPartOfStr(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'), trim($conditionValue))) {
+                        $conditionResult = true;
+                        break;
+                    }
+                }
+                break;
+
+            case '!requestUri':
+                $conditionResults = [];
+                foreach ($conditionValues as $conditionValue) {
+                    if (!GeneralUtility::isFirstPartOfStr(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'), trim($conditionValue))) {
+                        $conditionResults[] = true;
+                    } else {
+                        $conditionResults[] = false;
+                    }
+                }
+                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                    $conditionResult = true;
+                }
+                break;
+
             case 'ip':
                 foreach ($conditionValues as $conditionValue) {
                     if (GeneralUtility::cmpIP(GeneralUtility::getIndpEnv('REMOTE_ADDR'), $conditionValue)) {
