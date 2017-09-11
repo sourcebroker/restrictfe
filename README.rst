@@ -124,7 +124,8 @@ backendUser
     after authorization. This is useful if you want to create only
     kind of "preview" BE user. This user does not need to have access
     to any BE module and do not needs rights to read/write any table.
-    All he needs is only to be mounted to pagtree.
+    All he needs is only to be mounted to pagtree and have at least
+    read only access in Web Page / Access Module.
 
   - As stated in last points after backend user authorization special
     cookie is set that allows to access frontend even after backend
@@ -418,6 +419,11 @@ To-Do list
 
 Changelist
 ----------
+
+7.1.1
+~~~~~
+
+a) Documentation update.
 
 7.1.0
 ~~~~~
