@@ -1,6 +1,25 @@
 Changelog
 ---------
 
+8.0.2
+~~~~~
+
+a) [TASK] Add more info to composer.json
+
+b) [TASK] Add some badges to README.rst
+
+c) [TASK] Add styleci / php_cs / scrutinizer configs
+
+d) [BUGFIX] array_unique($conditionResults) cannot be passed to reset() as the parameter $array expects a reference.
+
+e) [BUGFIX] The parameter $_params and $pObj is not used and could be removed.
+
+f) [BUGFIX] Make strict comparision of values.
+
+g) [TASK] Change exit() with die()
+
+h) [DOCS] Mods for docs.
+
 8.0.1
 ~~~~~
 
@@ -9,7 +28,6 @@ a) [DOCS] Docs update.
 b) [BUGFIX] Bring back 'ip' => '127.0.0.1' as default config.
 
 c) [CLENAUP] Remove not used use.
-
 
 8.0.0
 ~~~~~
