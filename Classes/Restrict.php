@@ -54,8 +54,7 @@ class Restrict
      *
      * @return void
      */
-    public function restrictFrontend($_params, &$pObj)
-    {
+    public function restrictFrontend(/** @noinspection PhpUnusedParameterInspection */ $_params, &$pObj) {
         $this->config = [
             'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe') . 'Resources/Private/Templates/Restricted.html',
             'cookie' => [

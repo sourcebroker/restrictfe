@@ -12,6 +12,7 @@ b) [CLEANUP] PSR-2 formatting.
 
 c) [DOCS] Divide changlog from main README.rst into separate CHANGELOG.rst.
 
+d) [BUGFIX] Disable php inspecion for $_params in restrictFrontend($_params, &$pObj) - PhpUnusedParameterInspection
 
 7.1.2
 ~~~~~
