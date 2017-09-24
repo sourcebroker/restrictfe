@@ -1,6 +1,20 @@
 TYPO3 Extension ``restrictfe``
 ==============================
 
+.. image:: https://styleci.io/repos/80206848/shield?branch=master
+    :target: https://styleci.io/repos/80206848
+
+.. image:: https://poser.pugx.org/sourcebroker/restrictfe/d/monthly
+    :target: https://packagist.org/packages/sourcebroker/restrictfe
+
+.. image:: https://poser.pugx.org/sourcebroker/restrictfe/v/stable
+    :target: https://packagist.org/packages/sourcebroker/restrictfe
+
+.. image:: https://poser.pugx.org/sourcebroker/restrictfe/license
+    :target: https://packagist.org/packages/sourcebroker/restrictfe
+
+|
+
 .. contents:: :local:
 
 What does it do?
