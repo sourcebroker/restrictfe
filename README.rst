@@ -373,7 +373,7 @@ Default Configuration
 By default following configuration is applied. You can change every
 element of this array using ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']``
 
- ::
+::
 
     [
         'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe').'Resources/Private/Templates/Restricted.html',
