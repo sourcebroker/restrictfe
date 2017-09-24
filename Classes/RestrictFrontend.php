@@ -135,7 +135,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -160,7 +161,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -185,7 +187,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -208,7 +211,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -231,7 +235,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -254,7 +259,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -279,7 +285,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
