@@ -380,25 +380,19 @@ element of this array using ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe
 FAQ
 ---
 
--  **Extension does not work. The frontend is not blocked at all. What is wrong?**
-   Be sure you are logged from BE and the cookie "restrictfe" is deleted. Remember also that
+-  |**Extension does not work. The frontend is not blocked at all. What is wrong?**
+   |Be sure you are logged from BE and the cookie "restrictfe" is deleted. Remember also that
    restrictfe protection is not working if $_SERVER['REMOTE_ADDR'] == 127.0.0.1 so if you
    are working on your local instance restrictfe is disabled. To enable it on your local instance
    insert folowing line:
    ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions']['ip'] = '__UNSET';``
 
--  **I am logged out from BE but still frontend is not blocked, why?**
-   From 3.0.0. version after first successful login a cookie is set
+-  |**I am logged out from BE but still frontend is not blocked, why?**
+   |From 3.0.0. version after first successful login a cookie is set
    (name tx\_restrictfe). If that cookie is present then user do not
    have to authorize again. So delete that cookie and then your frontend
    should be blocked again.
 
-Important
----------
-
-In version below 5.0 there were settings kept in Extension Manager with
-IP / header. You must move them manually to
-``$GLOBALS['TYPO3\_CONF\_VARS']['EXTCONF']['restrictfe']['exceptions']``
 
 Known problems
 --------------

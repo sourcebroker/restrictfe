@@ -1,6 +1,16 @@
 Changelog
 ---------
 
+8.0.1
+~~~~~
+
+a) [DOCS] Docs update.
+
+b) [BUGFIX] Bring back 'ip' => '127.0.0.1' as default config.
+
+c) [CLENAUP] Remove not used use.
+
+
 8.0.0
 ~~~~~
 
@@ -12,12 +22,12 @@ b) [CLEANUP] PSR-2 formatting.
 
 c) [DOCS] Divide changlog from main README.rst into separate CHANGELOG.rst.
 
-d) [BUGFIX] Disable php inspecion for $_params in restrictFrontend($_params, &$pObj) - PhpUnusedParameterInspection
+d) [BUGFIX] Disable php inspecion for $_params in restrictFrontend($_params, &$pObj) - PhpUnusedParameterInspection.
 
-e) [TASK] Cleanup up on detecting for wrong naming for "exeptions" or "exception"
+e) [TASK] Cleanup up on detecting for wrong naming for "exeptions" or "exception".
 
-f) [TASK][!!!BREAKING] Move config to external class and remove hook to set additional config params as all params can be
-    overwritten by config from $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']
+f) [TASK][BREAKING] Move config to external class and remove hook to set additional config params as all params can be
+   overwritten by config from $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']
 
 g) [TASK] Add separate class which hooks into BE login process and stores tx_restrictfe cookie after sucessful BE
    login. Additionally logout user if "tx_restrictfe_clearbesession" is set for user profile.
