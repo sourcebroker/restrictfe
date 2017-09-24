@@ -27,11 +27,8 @@ namespace SourceBroker\Restrictfe;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Class Restrict.
@@ -50,6 +47,7 @@ class Config
                 'httponly' => true,
             ],
             'exceptions' => [
+                'ip' => '127.0.0.1',
                 'backendUser' => true,
             ],
         ];

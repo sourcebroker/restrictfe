@@ -42,25 +42,17 @@ class RestrictFrontend
     protected $config = [];
 
     /**
-     * This is hook that is called at the very beginning of the FE rendering process.
-     *
-     * @param $_params
-     * @param $pObj
+     * Check for all exceptions defiend and block frontend if needed
      *
      * @throws \Exception
-     *
-     * @return void
      */
-    public function checkExceptionsAndBlockFrontendIfNeeded(
-        /** @noinspection PhpUnusedParameterInspection */
-        $_params,
-        &$pObj
-    ) {
+    public function checkExceptionsAndBlockFrontendIfNeeded()
+    {
         $this->config = GeneralUtility::makeInstance(Config::class)->getAll();
 
         $blockFrontendAccess = true;
         if (isset($this->config['exceptions']) && is_array($this->config['exceptions'])) {
-            if (true == $this->checkRules($this->config['exceptions'])) {
+            if (true === $this->checkRules($this->config['exceptions'])) {
                 $blockFrontendAccess = false;
             }
         }
@@ -88,7 +80,7 @@ class RestrictFrontend
             header('Expires: 0');
 
             echo $renderObj->render();
-            exit;
+            die();
         }
     }
 
@@ -135,7 +127,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -160,7 +153,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -185,7 +179,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -208,7 +203,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -231,7 +227,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -254,7 +251,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;
@@ -279,7 +277,8 @@ class RestrictFrontend
                         $conditionResults[] = false;
                     }
                 }
-                if (1 === count(array_unique($conditionResults)) && true === reset(array_unique($conditionResults))) {
+                $uniqueConditionResults = array_unique($conditionResults);
+                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
                     $conditionResult = true;
                 }
                 break;

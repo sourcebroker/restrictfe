@@ -1,6 +1,20 @@
 TYPO3 Extension ``restrictfe``
 ==============================
 
+.. image:: https://styleci.io/repos/80206848/shield?branch=master
+    :target: https://styleci.io/repos/80206848
+
+.. image:: https://poser.pugx.org/sourcebroker/restrictfe/d/monthly
+    :target: https://packagist.org/packages/sourcebroker/restrictfe
+
+.. image:: https://poser.pugx.org/sourcebroker/restrictfe/v/stable
+    :target: https://packagist.org/packages/sourcebroker/restrictfe
+
+.. image:: https://poser.pugx.org/sourcebroker/restrictfe/license
+    :target: https://packagist.org/packages/sourcebroker/restrictfe
+
+|
+
 .. contents:: :local:
 
 What does it do?
@@ -57,7 +71,7 @@ Installation
 
 Just use composer or download by Extension Manager.
 
-::
+ ::
 
     composer require sourcebroker/restrictfe
 
@@ -68,7 +82,7 @@ that you forgot to protect it and someone will see new staging instance
 or google will index it. Of course you must remember to unblock
 production instance with simple line:
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['*' => true];
 
@@ -295,7 +309,7 @@ Some most useful real live configuration examples:
 Production instance that must have sysLanguageUid=1 not avaliable public
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
             '!sysLanguageUid' => 1,
@@ -304,7 +318,7 @@ Production instance that must have sysLanguageUid=1 not avaliable public
 Production instance that must have domain "sub.example.com" not avaliable public
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
             '!domain' => 'sub.example.com',
@@ -313,7 +327,7 @@ Production instance that must have domain "sub.example.com" not avaliable public
 Staging instance that needs to unblock frontend for Google Page Speed Insights
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'get' => 'secret=91009123',
@@ -325,7 +339,7 @@ https://www.example.com/?secret=91009123
 Staging instance that needs to unblock frontend for IP=11.11.11.11
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
           'ip' => '11.11.11.11',
@@ -336,7 +350,7 @@ Example how the AND condition looks like
 
 ip and header are AND'ed. array values inside ip and header are OR'ed.
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
             'AND' => [
@@ -359,22 +373,22 @@ Default Configuration
 By default following configuration is applied. You can change every
 element of this array using ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']``
 
-  ::
+ ::
 
-        [
-            'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe').'Resources/Private/Templates/Restricted.html',
-            'cookie'       => [
-                'expire'   => time() + 86400 * 30,
-                'path'     => '/',
-                'domain'   => null,
-                'secure'   => false,
-                'httponly' => true,
-            ],
-            'exceptions' => [
-                'backendUser' => true,
-                'ip'          => '127.0.0.1',
-            ],
-        ];
+    [
+        'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe').'Resources/Private/Templates/Restricted.html',
+        'cookie'       => [
+            'expire'   => time() + 86400 * 30,
+            'path'     => '/',
+            'domain'   => null,
+            'secure'   => false,
+            'httponly' => true,
+        ],
+        'exceptions' => [
+            'backendUser' => true,
+            'ip'          => '127.0.0.1',
+        ],
+    ];
 
 
 FAQ
@@ -393,12 +407,6 @@ FAQ
    have to authorize again. So delete that cookie and then your frontend
    should be blocked again.
 
-Important
----------
-
-In version below 5.0 there were settings kept in Extension Manager with
-IP / header. You must move them manually to
-``$GLOBALS['TYPO3\_CONF\_VARS']['EXTCONF']['restrictfe']['exceptions']``
 
 Known problems
 --------------
