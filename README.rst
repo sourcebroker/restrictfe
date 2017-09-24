@@ -71,7 +71,7 @@ Installation
 
 Just use composer or download by Extension Manager.
 
-::
+ ::
 
     composer require sourcebroker/restrictfe
 
@@ -82,7 +82,7 @@ that you forgot to protect it and someone will see new staging instance
 or google will index it. Of course you must remember to unblock
 production instance with simple line:
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['*' => true];
 
@@ -309,7 +309,7 @@ Some most useful real live configuration examples:
 Production instance that must have sysLanguageUid=1 not avaliable public
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
             '!sysLanguageUid' => 1,
@@ -318,7 +318,7 @@ Production instance that must have sysLanguageUid=1 not avaliable public
 Production instance that must have domain "sub.example.com" not avaliable public
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
             '!domain' => 'sub.example.com',
@@ -327,7 +327,7 @@ Production instance that must have domain "sub.example.com" not avaliable public
 Staging instance that needs to unblock frontend for Google Page Speed Insights
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'get' => 'secret=91009123',
@@ -339,7 +339,7 @@ https://www.example.com/?secret=91009123
 Staging instance that needs to unblock frontend for IP=11.11.11.11
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
           'ip' => '11.11.11.11',
@@ -350,7 +350,7 @@ Example how the AND condition looks like
 
 ip and header are AND'ed. array values inside ip and header are OR'ed.
 
-::
+ ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
             'AND' => [
@@ -373,36 +373,36 @@ Default Configuration
 By default following configuration is applied. You can change every
 element of this array using ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']``
 
-  ::
+ ::
 
-        [
-            'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe').'Resources/Private/Templates/Restricted.html',
-            'cookie'       => [
-                'expire'   => time() + 86400 * 30,
-                'path'     => '/',
-                'domain'   => null,
-                'secure'   => false,
-                'httponly' => true,
-            ],
-            'exceptions' => [
-                'backendUser' => true,
-                'ip'          => '127.0.0.1',
-            ],
-        ];
+    [
+        'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe').'Resources/Private/Templates/Restricted.html',
+        'cookie'       => [
+            'expire'   => time() + 86400 * 30,
+            'path'     => '/',
+            'domain'   => null,
+            'secure'   => false,
+            'httponly' => true,
+        ],
+        'exceptions' => [
+            'backendUser' => true,
+            'ip'          => '127.0.0.1',
+        ],
+    ];
 
 
 FAQ
 ---
 
--  |**Extension does not work. The frontend is not blocked at all. What is wrong?**
-   |Be sure you are logged from BE and the cookie "restrictfe" is deleted. Remember also that
+-  **Extension does not work. The frontend is not blocked at all. What is wrong?**
+   Be sure you are logged from BE and the cookie "restrictfe" is deleted. Remember also that
    restrictfe protection is not working if $_SERVER['REMOTE_ADDR'] == 127.0.0.1 so if you
    are working on your local instance restrictfe is disabled. To enable it on your local instance
    insert folowing line:
    ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions']['ip'] = '__UNSET';``
 
--  |**I am logged out from BE but still frontend is not blocked, why?**
-   |From 3.0.0. version after first successful login a cookie is set
+-  **I am logged out from BE but still frontend is not blocked, why?**
+   From 3.0.0. version after first successful login a cookie is set
    (name tx\_restrictfe). If that cookie is present then user do not
    have to authorize again. So delete that cookie and then your frontend
    should be blocked again.
