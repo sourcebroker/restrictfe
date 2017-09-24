@@ -1,7 +1,7 @@
 Changelog
 ---------
 
-7.1.3
+8.0.0
 ~~~~~
 
 a) [BUGFIX] Store BE_USER just after authorization because later in typo3/sysext/frontend/Classes/Http/RequestHandler.php
@@ -15,6 +15,12 @@ c) [DOCS] Divide changlog from main README.rst into separate CHANGELOG.rst.
 d) [BUGFIX] Disable php inspecion for $_params in restrictFrontend($_params, &$pObj) - PhpUnusedParameterInspection
 
 e) [TASK] Cleanup up on detecting for wrong naming for "exeptions" or "exception"
+
+f) [TASK][!!!BREAKING] Move config to external class and remove hook to set additional config params as all params can be
+    overwritten by config from $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']
+
+g) [TASK] Add separate class which hooks into BE login process and stores tx_restrictfe cookie after sucessful BE
+   login. Additionally logout user if "tx_restrictfe_clearbesession" is set for user profile.
 
 7.1.2
 ~~~~~

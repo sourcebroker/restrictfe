@@ -27,17 +27,14 @@ namespace SourceBroker\Restrictfe;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Registry;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
  * Class Restrict.
  */
-class Restrict
+class RestrictFrontend
 {
     /**
      * @var array
@@ -54,51 +51,17 @@ class Restrict
      *
      * @return void
      */
-    public function restrictFrontend(/** @noinspection PhpUnusedParameterInspection */ $_params, &$pObj) {
-        $this->config = [
-            'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe') . 'Resources/Private/Templates/Restricted.html',
-            'cookie' => [
-                'expire' => time() + 86400 * 30,
-                'path' => '/',
-                'domain' => null,
-                'secure' => false,
-                'httponly' => true,
-            ],
-            'exceptions' => [
-                'backendUser' => true,
-                'ip' => '127.0.0.1',
-            ],
-        ];
+    public function checkExceptionsAndBlockFrontendIfNeeded(
+        /** @noinspection PhpUnusedParameterInspection */
+        $_params,
+        &$pObj
+    ) {
+        $this->config = GeneralUtility::makeInstance(Config::class)->getAll();
 
-        // Merge external config with defulat conifg
-        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe'])) {
-            if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exeptions']) || !empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exception'])) {
-                throw new \Exception('You have typo in config name. You set "exeptions" or "exception" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
-            }
-            ArrayUtility::mergeRecursiveWithOverrule(
-                $this->config,
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']
-            );
-        }
-
-        // Hook that allows you to overwrite the config with some other data than available in ext_localconf.php and set in $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['restrictfe/Class/Main.php']['restrictfe-PreProc'])) {
-            $_paramsHook = ['pObj' => &$pObj];
-            foreach ($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['restrictfe/Class/Main.php']['restrictfe-PreProc'] as $_funcRef) {
-                GeneralUtility::callUserFunction($_funcRef, $_paramsHook, $this);
-            }
-        }
-
-        // By default access to frontend is blocked
         $blockFrontendAccess = true;
-        // The 'enable' from previous versions of extension is deprecated
-        if (isset($this->config['enable'])) {
-            throw new \Exception('Extension restrictfe: The $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'restrictfe\'][\'enable\'] is deprecated. Read docs on https://github.com/sourcebroker/restrictfe');
-        } else {
-            if (isset($this->config['exceptions']) && is_array($this->config['exceptions'])) {
-                if (true == $this->checkRules($this->config['exceptions'])) {
-                    $blockFrontendAccess = false;
-                }
+        if (isset($this->config['exceptions']) && is_array($this->config['exceptions'])) {
+            if (true == $this->checkRules($this->config['exceptions'])) {
+                $blockFrontendAccess = false;
             }
         }
 
@@ -326,32 +289,23 @@ class Restrict
                     if (is_bool($conditionValue)) {
                         if (true === $conditionValue) {
                             /** @var \TYPO3\CMS\Core\Registry $registry */
-                            $registry = GeneralUtility::makeInstance(Registry::class);
-                            if (isset($_COOKIE['tx_restrictfe']) || true == $registry->get('tx_restrictfe',
-                                    intval($_COOKIE['tx_restrictfe']))) {
-                                $conditionResult = true;
-                            } elseif (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow'])) {
-                                // We clear cookie of BE user in order to only authorize him in FE.
-                                // That means that you can create special BE account that have no privilages at all
-                                // and is used only for purspose to show frontend, let it name "preview" account.
-                                if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow']['tx_restrictfe_clearbesession'])) {
-                                    setcookie(BackendUserAuthentication::getCookieName(), null, 1);
+                            $conditionResult = false;
+                            if (isset($_COOKIE['tx_restrictfe'])) {
+                                if (true === GeneralUtility::makeInstance(Registry::class)->get(
+                                        'tx_restrictfe',
+                                        intval($_COOKIE['tx_restrictfe']))) {
+                                    $conditionResult = true;
+                                } else {
+                                    // Cookie exist but is wrong so unset it.
+                                    setcookie(
+                                        'tx_restrictfe',
+                                        null,
+                                        $this->config['cookie']['expire'],
+                                        $this->config['cookie']['path'],
+                                        $this->config['cookie']['domain'],
+                                        $this->config['cookie']['secure'],
+                                        $this->config['cookie']['httponly']);
                                 }
-                                // create random cookie value and set it in registry to later check if this cookie has right to see frontend
-                                $cookieValue = GeneralUtility::md5int(
-                                    substr($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'], rand(1, 5),
-                                        rand(5, 10)) . time()
-                                );
-                                setcookie(
-                                    'tx_restrictfe',
-                                    $cookieValue,
-                                    $this->config['cookie']['expire'],
-                                    $this->config['cookie']['path'],
-                                    $this->config['cookie']['domain'],
-                                    $this->config['cookie']['secure'],
-                                    $this->config['cookie']['httponly']);
-                                GeneralUtility::makeInstance(Registry::class)->set('tx_restrictfe', $cookieValue, true);
-                                $conditionResult = true;
                             }
                         }
                     } else {
@@ -409,22 +363,5 @@ class Restrict
         }
 
         return $finalResult;
-    }
-
-
-    /**
-     * Store BE_USER just after authorization because later in typo3/sysext/frontend/Classes/Http/RequestHandler.php
-     * BE_USER can be unset if he has no access to page tree, but we do not care about acceess to page tree
-     * for restrictfe. We only want to know if user logged sucessfully.
-     *
-     * @param $params array Parameters passed from hook. It holds BE_USER key with Backend User Object.
-     */
-    public function storeBackendUserRow($params)
-    {
-        if (!empty($params['BE_USER']->user) && !empty($params['BE_USER']->user['uid'])) {
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow'] = $params['BE_USER']->user;
-        } else {
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow'] = null;
-        }
     }
 }
