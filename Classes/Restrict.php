@@ -330,11 +330,11 @@ class Restrict
                             $registry = GeneralUtility::makeInstance(Registry::class);
                             if (isset($_COOKIE['tx_restrictfe']) || true == $registry->get('tx_restrictfe', intval($_COOKIE['tx_restrictfe']))) {
                                 $conditionResult = true;
-                            } elseif (isset($GLOBALS['BE_USER'])) {
+                            } elseif (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow'])) {
                                 // We clear cookie of BE user in order to only authorize him in FE.
                                 // That means that you can create special BE account that have no privilages at all
                                 // and is used only for purspose to show frontend, let it name "preview" account.
-                                if (isset($GLOBALS['BE_USER']->user['tx_restrictfe_clearbesession']) && $GLOBALS['BE_USER']->user['tx_restrictfe_clearbesession']) {
+                                if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow']['tx_restrictfe_clearbesession'])) {
                                     setcookie(BackendUserAuthentication::getCookieName(), null, 1);
                                 }
                                 // create random cookie value and set it in registry to later check if this cookie has right to see frontend
@@ -408,5 +408,21 @@ class Restrict
         }
 
         return $finalResult;
+    }
+
+
+    /**
+     * Store BE_USER just after authorization because later in typo3/sysext/frontend/Classes/Http/RequestHandler.php
+     * BE_USER can be unset if he has no access to page tree, but we do not care about acceess to page tree
+     * for restrictfe. We only want to know if user logged sucessfully.
+     *
+     * @param $params array Parameters passed from hook. It holds BE_USER key with Backend User Object.
+     */
+    public function storeBackendUserRow($params) {
+        if(!empty($params['BE_USER']->user) && !empty($params['BE_USER']->user['uid'])) {
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow'] = $params['BE_USER']->user;
+        } else {
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow'] = null;
+        }
     }
 }
