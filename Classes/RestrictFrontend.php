@@ -42,20 +42,13 @@ class RestrictFrontend
     protected $config = [];
 
     /**
-     * This is hook that is called at the very beginning of the FE rendering process.
-     *
-     * @param $_params
-     * @param $pObj
+     * Check for all exceptions defiend and block frontend if needed
      *
      * @throws \Exception
      *
      * @return void
      */
-    public function checkExceptionsAndBlockFrontendIfNeeded(
-        /** @noinspection PhpUnusedParameterInspection */
-        $_params,
-        &$pObj
-    ) {
+    public function checkExceptionsAndBlockFrontendIfNeeded() {
         $this->config = GeneralUtility::makeInstance(Config::class)->getAll();
 
         $blockFrontendAccess = true;
