@@ -14,6 +14,8 @@ c) [DOCS] Divide changlog from main README.rst into separate CHANGELOG.rst.
 
 d) [BUGFIX] Disable php inspecion for $_params in restrictFrontend($_params, &$pObj) - PhpUnusedParameterInspection
 
+e) [TASK] Cleanup up on detecting for wrong naming for "exeptions" or "exception"
+
 7.1.2
 ~~~~~
 

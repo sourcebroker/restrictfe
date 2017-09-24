@@ -72,11 +72,8 @@ class Restrict
 
         // Merge external config with defulat conifg
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe'])) {
-            if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exeptions'])) {
-                throw new \Exception('You have typo in config name. You set "exeptions" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
-            }
-            if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exception'])) {
-                throw new \Exception('You have typo in config name. You set "exception" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
+            if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exeptions']) || !empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exception'])) {
+                throw new \Exception('You have typo in config name. You set "exeptions" or "exception" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
             }
             ArrayUtility::mergeRecursiveWithOverrule(
                 $this->config,
