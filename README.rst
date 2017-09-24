@@ -425,6 +425,8 @@ a) [BUGFIX] Store BE_USER just after authorization because later in typo3/sysext
    BE_USER can be unset if he has no access to page tree, but we do not care about acceess to page tree for restrictfe.
    We only want to know if user logged sucessfully.
 
+b) PSR-2 formatting.
+
 7.1.2
 ~~~~~
 

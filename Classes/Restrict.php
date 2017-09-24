@@ -57,27 +57,27 @@ class Restrict
     public function restrictFrontend($_params, &$pObj)
     {
         $this->config = [
-            'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe').'Resources/Private/Templates/Restricted.html',
-            'cookie'       => [
-                'expire'   => time() + 86400 * 30,
-                'path'     => '/',
-                'domain'   => null,
-                'secure'   => false,
+            'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe') . 'Resources/Private/Templates/Restricted.html',
+            'cookie' => [
+                'expire' => time() + 86400 * 30,
+                'path' => '/',
+                'domain' => null,
+                'secure' => false,
                 'httponly' => true,
             ],
             'exceptions' => [
                 'backendUser' => true,
-                'ip'          => '127.0.0.1',
+                'ip' => '127.0.0.1',
             ],
         ];
 
         // Merge external config with defulat conifg
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe'])) {
             if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exeptions'])) {
-                throw new \Exception('You have typo in config name. You set "exeptions" instead of "exceptions". '.json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
+                throw new \Exception('You have typo in config name. You set "exeptions" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
             }
             if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exception'])) {
-                throw new \Exception('You have typo in config name. You set "exception" instead of "exceptions". '.json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
+                throw new \Exception('You have typo in config name. You set "exception" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
             }
             ArrayUtility::mergeRecursiveWithOverrule(
                 $this->config,
@@ -107,21 +107,22 @@ class Restrict
         }
 
         if (true === $blockFrontendAccess) {
-            if (file_exists(PATH_site.$this->config['templatePath'])) {
+            if (file_exists(PATH_site . $this->config['templatePath'])) {
                 $templatePath = $this->config['templatePath'];
             } else {
-                throw new \Exception('Template file can not be found:'.PATH_site.$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['templatePath']);
+                throw new \Exception('Template file can not be found:' . PATH_site . $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['templatePath']);
             }
             // TODO: choose label language based on browser headers
             $renderObj = GeneralUtility::makeInstance(StandaloneView::class);
-            $renderObj->setTemplatePathAndFilename(PATH_site.$templatePath);
-            $renderObj->assign('beLoginLink', GeneralUtility::getIndpEnv('TYPO3_SITE_URL').'typo3/index.php?redirect_url='.GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
+            $renderObj->setTemplatePathAndFilename(PATH_site . $templatePath);
+            $renderObj->assign('beLoginLink',
+                GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/index.php?redirect_url=' . GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
 
             header('X-Robots-Tag: noindex,nofollow');
             header('HTTP/1.0 403 Access Forbidden');
             header('Content-Type: text/html; charset=utf-8');
             header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
-            header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
             header('Cache-Control: no-store, no-cache, must-revalidate');
             header('Cache-Control: pre-check=0, post-check=0, max-age=0');
             header('Pragma: no-cache');
@@ -207,7 +208,8 @@ class Restrict
 
             case 'requestUri':
                 foreach ($conditionValues as $conditionValue) {
-                    if (GeneralUtility::isFirstPartOfStr(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'), trim($conditionValue))) {
+                    if (GeneralUtility::isFirstPartOfStr(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'),
+                        trim($conditionValue))) {
                         $conditionResult = true;
                         break;
                     }
@@ -217,7 +219,8 @@ class Restrict
             case '!requestUri':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    if (!GeneralUtility::isFirstPartOfStr(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'), trim($conditionValue))) {
+                    if (!GeneralUtility::isFirstPartOfStr(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'),
+                        trim($conditionValue))) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
@@ -300,7 +303,7 @@ class Restrict
             case 'header':
                 foreach ($conditionValues as $conditionValue) {
                     list($headerName, $headerValue) = explode('=', $conditionValue);
-                    if (trim($headerValue) == $_SERVER['HTTP_'.trim($headerName)]) {
+                    if (trim($headerValue) == $_SERVER['HTTP_' . trim($headerName)]) {
                         $conditionResult = true;
                         break;
                     }
@@ -311,7 +314,7 @@ class Restrict
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
                     list($headerName, $headerValue) = explode('=', $conditionValue);
-                    if (trim($headerValue) != $_SERVER['HTTP_'.trim($headerName)]) {
+                    if (trim($headerValue) != $_SERVER['HTTP_' . trim($headerName)]) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
@@ -328,7 +331,8 @@ class Restrict
                         if (true === $conditionValue) {
                             /** @var \TYPO3\CMS\Core\Registry $registry */
                             $registry = GeneralUtility::makeInstance(Registry::class);
-                            if (isset($_COOKIE['tx_restrictfe']) || true == $registry->get('tx_restrictfe', intval($_COOKIE['tx_restrictfe']))) {
+                            if (isset($_COOKIE['tx_restrictfe']) || true == $registry->get('tx_restrictfe',
+                                    intval($_COOKIE['tx_restrictfe']))) {
                                 $conditionResult = true;
                             } elseif (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow'])) {
                                 // We clear cookie of BE user in order to only authorize him in FE.
@@ -339,7 +343,8 @@ class Restrict
                                 }
                                 // create random cookie value and set it in registry to later check if this cookie has right to see frontend
                                 $cookieValue = GeneralUtility::md5int(
-                                    substr($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'], rand(1, 5), rand(5, 10)).time()
+                                    substr($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'], rand(1, 5),
+                                        rand(5, 10)) . time()
                                 );
                                 setcookie(
                                     'tx_restrictfe',
@@ -360,7 +365,7 @@ class Restrict
                 break;
 
             default:
-                throw new \Exception('Extension restrictfe: The condition: "'.$conditionType.'" is not supported.');
+                throw new \Exception('Extension restrictfe: The condition: "' . $conditionType . '" is not supported.');
         }
 
         return $conditionResult;
@@ -418,8 +423,9 @@ class Restrict
      *
      * @param $params array Parameters passed from hook. It holds BE_USER key with Backend User Object.
      */
-    public function storeBackendUserRow($params) {
-        if(!empty($params['BE_USER']->user) && !empty($params['BE_USER']->user['uid'])) {
+    public function storeBackendUserRow($params)
+    {
+        if (!empty($params['BE_USER']->user) && !empty($params['BE_USER']->user['uid'])) {
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow'] = $params['BE_USER']->user;
         } else {
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['backendUserRow'] = null;
