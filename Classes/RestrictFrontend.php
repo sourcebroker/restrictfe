@@ -80,7 +80,7 @@ class RestrictFrontend
             header('Expires: 0');
 
             echo $renderObj->render();
-            exit;
+            die();
         }
     }
 
