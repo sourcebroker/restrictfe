@@ -45,15 +45,14 @@ class RestrictFrontend
      * Check for all exceptions defiend and block frontend if needed
      *
      * @throws \Exception
-     *
-     * @return void
      */
-    public function checkExceptionsAndBlockFrontendIfNeeded() {
+    public function checkExceptionsAndBlockFrontendIfNeeded()
+    {
         $this->config = GeneralUtility::makeInstance(Config::class)->getAll();
 
         $blockFrontendAccess = true;
         if (isset($this->config['exceptions']) && is_array($this->config['exceptions'])) {
-            if (true == $this->checkRules($this->config['exceptions'])) {
+            if (true === $this->checkRules($this->config['exceptions'])) {
                 $blockFrontendAccess = false;
             }
         }
