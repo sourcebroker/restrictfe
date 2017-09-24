@@ -309,7 +309,7 @@ Some most useful real live configuration examples:
 Production instance that must have sysLanguageUid=1 not avaliable public
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- ::
+::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
             '!sysLanguageUid' => 1,
@@ -318,7 +318,7 @@ Production instance that must have sysLanguageUid=1 not avaliable public
 Production instance that must have domain "sub.example.com" not avaliable public
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- ::
+::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
             '!domain' => 'sub.example.com',
@@ -327,7 +327,7 @@ Production instance that must have domain "sub.example.com" not avaliable public
 Staging instance that needs to unblock frontend for Google Page Speed Insights
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- ::
+::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
            'get' => 'secret=91009123',
@@ -339,7 +339,7 @@ https://www.example.com/?secret=91009123
 Staging instance that needs to unblock frontend for IP=11.11.11.11
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
- ::
+::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
           'ip' => '11.11.11.11',
@@ -350,7 +350,7 @@ Example how the AND condition looks like
 
 ip and header are AND'ed. array values inside ip and header are OR'ed.
 
- ::
+::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
             'AND' => [
@@ -373,22 +373,22 @@ Default Configuration
 By default following configuration is applied. You can change every
 element of this array using ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']``
 
- ::
+::
 
-    [
-        'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe').'Resources/Private/Templates/Restricted.html',
-        'cookie'       => [
-            'expire'   => time() + 86400 * 30,
-            'path'     => '/',
-            'domain'   => null,
-            'secure'   => false,
-            'httponly' => true,
-        ],
-        'exceptions' => [
-            'backendUser' => true,
-            'ip'          => '127.0.0.1',
-        ],
-    ];
+  [
+    'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe').'Resources/Private/Templates/Restricted.html',
+    'cookie'       => [
+        'expire'   => time() + 86400 * 30,
+        'path'     => '/',
+        'domain'   => null,
+        'secure'   => false,
+        'httponly' => true,
+    ],
+    'exceptions' => [
+        'backendUser' => true,
+        'ip'          => '127.0.0.1',
+    ],
+  ];
 
 
 FAQ
