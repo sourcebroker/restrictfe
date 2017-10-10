@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+8.0.3
+~~~~~
+
+[BUGFIX] Set restrictfe cookie only for backend user authorisation.
+
+
 8.0.2
 ~~~~~
 

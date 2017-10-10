@@ -43,9 +43,10 @@ class BackendUserAuthentication
         /* @var $backendUserAuthentication \TYPO3\CMS\Core\Authentication\BackendUserAuthentication */
         $backendUserAuthentication = $params['pObj'];
         // TODO: 'user' is annotated as @internal - try not to use internal if possible
-        $userRow = $backendUserAuthentication->user;
-        if (!empty($userRow)) {
-            if (!isset($_COOKIE['tx_restrictfe'])) {
+        if ($backendUserAuthentication instanceof \TYPO3\CMS\Core\Authentication\BackendUserAuthentication) {
+            if (!empty($backendUserAuthentication->user)
+                && !empty($backendUserAuthentication->user['uid'])
+                && !isset($_COOKIE['tx_restrictfe'])) {
                 $cookieValue = GeneralUtility::md5int(
                     substr($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'], rand(1, 5), rand(5, 10)) . time()
                 );
@@ -60,7 +61,7 @@ class BackendUserAuthentication
                     $config['cookie']['httponly']);
                 GeneralUtility::makeInstance(Registry::class)->set('tx_restrictfe', $cookieValue, true);
             }
-            if (!empty($userRow['tx_restrictfe_clearbesession'])) {
+            if (!empty($backendUserAuthentication->user['tx_restrictfe_clearbesession'])) {
                 $backendUserAuthentication->removeCookie($backendUserAuthentication->getCookieName());
             }
         }
