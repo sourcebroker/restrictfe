@@ -1,10 +1,16 @@
 Changelog
 ---------
 
+8.1.0
+~~~~~
+
+a) [FEATURE] Use TYPO3 settings for cookie HttpOnly and Secure flags.
+
+
 8.0.3
 ~~~~~
 
-[BUGFIX] Set restrictfe cookie only for backend user authorisation.
+a) [BUGFIX] Set restrictfe cookie only for backend user authorisation.
 
 
 8.0.2

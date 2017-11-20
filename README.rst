@@ -381,8 +381,8 @@ element of this array using ``$GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe
         'expire'   => time() + 86400 * 30,
         'path'     => '/',
         'domain'   => null,
-        'secure'   => false,
-        'httponly' => true,
+        'secure' => ((int)$GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] === 1 || GeneralUtility::getIndpEnv('TYPO3_SSL')),
+        'httponly' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieHttpOnly'],
     ],
     'exceptions' => [
         'backendUser' => true,
