@@ -29,6 +29,7 @@ namespace SourceBroker\Restrictfe;
 
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Class Restrict.
@@ -43,8 +44,8 @@ class Config
                 'expire' => time() + 86400 * 30,
                 'path' => '/',
                 'domain' => null,
-                'secure' => false,
-                'httponly' => true,
+                'secure' => ((int)$GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] === 1 || GeneralUtility::getIndpEnv('TYPO3_SSL')),
+                'httponly' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieHttpOnly'],
             ],
             'exceptions' => [
                 'ip' => '127.0.0.1',
