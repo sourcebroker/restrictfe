@@ -1,19 +1,18 @@
 TYPO3 Extension ``restrictfe``
 ==============================
 
-.. image:: https://styleci.io/repos/80206848/shield?branch=master
-    :target: https://styleci.io/repos/80206848
+    .. image:: https://styleci.io/repos/80206848/shield?branch=master
+        :target: https://styleci.io/repos/80206848
 
-.. image:: https://poser.pugx.org/sourcebroker/restrictfe/d/monthly
-    :target: https://packagist.org/packages/sourcebroker/restrictfe
+    .. image:: https://poser.pugx.org/sourcebroker/restrictfe/d/monthly
+        :target: https://packagist.org/packages/sourcebroker/restrictfe
 
-.. image:: https://poser.pugx.org/sourcebroker/restrictfe/v/stable
-    :target: https://packagist.org/packages/sourcebroker/restrictfe
+    .. image:: https://poser.pugx.org/sourcebroker/restrictfe/v/stable
+        :target: https://packagist.org/packages/sourcebroker/restrictfe
 
-.. image:: https://poser.pugx.org/sourcebroker/restrictfe/license
-    :target: https://packagist.org/packages/sourcebroker/restrictfe
+    .. image:: https://poser.pugx.org/sourcebroker/restrictfe/license
+        :target: https://packagist.org/packages/sourcebroker/restrictfe
 
-|
 
 .. contents:: :local:
 
@@ -37,12 +36,12 @@ instances.
 You will find restrictfe useful if you have staging instances and you want to
 protect frontend content form public but at the same time:
 
-* allow to show frontend to authorized backend users,
-* allow to show frontend to IP of your VPN,
-* allow to show frontend to your external spiders for crawling,
-* allow some payment systems to send confirm link to your application endpoint,
-* allow Google Page Speed to make tests,
-* etc.
+- allow to show frontend to authorized backend users,
+- allow to show frontend to IP of your VPN,
+- allow to show frontend to your external spiders for crawling,
+- allow some payment systems to send confirm link to your application endpoint,
+- allow Google Page Speed to make tests,
+- etc.
 
 **For production instances**
 
@@ -83,7 +82,7 @@ production instance with simple line:
 
  ::
 
-  $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['*' => true];
+   $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['*' => true];
 
 Put this config in the file that is included only on live instance!
 
