@@ -69,9 +69,10 @@ Installation
 ------------
 
 Just use composer or download by Extension Manager.
- ::
 
-   composer require sourcebroker/restrictfe
+::
+
+  composer require sourcebroker/restrictfe
 
 Be aware that after installation restrictfe blocks all traffic to
 frontend by default. This is by design because if you will add new
@@ -80,9 +81,9 @@ that you forgot to protect it and someone will see new staging instance
 or google will index it. Of course you must remember to unblock
 production instance with simple line:
 
- ::
+::
 
-   $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['*' => true];
+  $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['*' => true];
 
 Put this config in the file that is included only on live instance!
 
