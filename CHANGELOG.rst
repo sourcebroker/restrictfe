@@ -1,6 +1,14 @@
 Changelog
 ---------
 
+8.2.0
+~~~~~
+
+a) [TASK] Change required TYPO3 from 'typo3/cms' to 'typo3/cms-core'.
+b) [FEATURE] Add compatibility for TYPO3 9.0.0
+c) [DOCS] Docs improvements.
+d) [TASK] Change icon.
+
 8.1.0
 ~~~~~
 
