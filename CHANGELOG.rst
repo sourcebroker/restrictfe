@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+8.2.1
+~~~~~
+
+a) [BUGFIX] Fix headers are case-insensitive.
+b) [TASK] Extend supported TYPO3 verison in ext_emconf.php
+
 8.2.0
 ~~~~~
 

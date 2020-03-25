@@ -260,7 +260,7 @@ class RestrictFrontend
             case 'header':
                 foreach ($conditionValues as $conditionValue) {
                     list($headerName, $headerValue) = explode('=', $conditionValue);
-                    if (trim($headerValue) == $_SERVER['HTTP_' . trim($headerName)]) {
+                    if (trim($headerValue) === $this->getHeaderValue($headerName)) {
                         $conditionResult = true;
                         break;
                     }
@@ -271,7 +271,7 @@ class RestrictFrontend
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
                     list($headerName, $headerValue) = explode('=', $conditionValue);
-                    if (trim($headerValue) != $_SERVER['HTTP_' . trim($headerName)]) {
+                    if (trim($headerValue) !== $this->getHeaderValue($headerName)) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
@@ -362,5 +362,20 @@ class RestrictFrontend
         }
 
         return $finalResult;
+    }
+
+    /**
+     * @param string $headerName
+     * @return mixed
+     */
+    protected function getHeaderValue($headerName)
+    {
+        $headerName = 'http_' . str_replace('-', '_', strtolower(trim($headerName)));
+        $tmpServer = [];
+        foreach ($_SERVER as $key => $value) {
+            $tmpServer[str_replace('-', '_', strtolower($key))] = $value;
+        }
+
+        return $tmpServer[$headerName];
     }
 }
