@@ -1,7 +1,7 @@
 {
   "name": "sourcebroker/restrictfe",
   "license": [
-    "GPL-2.0+"
+    "GPL-2.0-or-later"
   ],
   "type": "typo3-cms-extension",
   "description": "This extension blocks access to frontend and allows to show it only to some defined exception's like if the request is from an authorized backend user, has specific IP, header, domain, language or GET/POST vars. Useful to protect your staging and production instances.",
@@ -20,7 +20,6 @@
     }
   ],
   "replace": {
-    "restrictfe": "self.version",
     "typo3-ter/restrictfe": "self.version"
   },
   "config": {
