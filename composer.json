@@ -6,7 +6,9 @@
   "type": "typo3-cms-extension",
   "description": "This extension blocks access to frontend and allows to show it only to some defined exception's like if the request is from an authorized backend user, has specific IP, header, domain, language or GET/POST vars. Useful to protect your staging and production instances.",
   "require": {
-    "typo3/cms-core": "~8.7 || ~9.0 || ~10.0"
+    "typo3/cms-core": "~8.7 || ~9.0 || ~10.0",
+    "typo3/cms-fluid": "~8.7 || ~9.0 || ~10.0",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {

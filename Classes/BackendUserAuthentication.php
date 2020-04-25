@@ -37,8 +37,9 @@ class BackendUserAuthentication
      * in user profile.
      *
      * @param $params array Parameters passed from hook. It holds AbstractUserAuthentication in pObj key.
+     * @throws \Exception
      */
-    public function storeRestrictfeCookieAfterSuccessfulBeLogin($params)
+    public function storeRestrictfeCookieAfterSuccessfulBeLogin($params) : void
     {
         /* @var $backendUserAuthentication \TYPO3\CMS\Core\Authentication\BackendUserAuthentication */
         $backendUserAuthentication = $params['pObj'];
@@ -48,7 +49,7 @@ class BackendUserAuthentication
                 && !empty($backendUserAuthentication->user['uid'])
                 && !isset($_COOKIE['tx_restrictfe'])) {
                 $cookieValue = GeneralUtility::md5int(
-                    substr($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'], rand(1, 5), rand(5, 10)) . time()
+                    substr($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'], random_int(1, 5), random_int(5, 10)) . time()
                 );
                 $config = GeneralUtility::makeInstance(Config::class)->getAll();
                 setcookie(
@@ -62,7 +63,7 @@ class BackendUserAuthentication
                 GeneralUtility::makeInstance(Registry::class)->set('tx_restrictfe', $cookieValue, true);
             }
             if (!empty($backendUserAuthentication->user['tx_restrictfe_clearbesession'])) {
-                $backendUserAuthentication->removeCookie($backendUserAuthentication->getCookieName());
+                $backendUserAuthentication->removeCookie($backendUserAuthentication::getCookieName());
             }
         }
     }
