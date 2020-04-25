@@ -5,6 +5,7 @@ master
 ~~~~~~
 
 a) [TASK] Increase TYPO3 to 10.
+b) [TASK] Change location of ext icon.
 
 8.2.1
 ~~~~~
