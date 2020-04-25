@@ -1,11 +1,12 @@
 Changelog
 ---------
 
-master
-~~~~~~
+9.0.0
+~~~~~
 
 a) [TASK] Increase TYPO3 to 10 / drop support for 6.2 and 7.6
 b) [TASK] Change location of ext icon.
+c) [TASK] Refactor code.
 
 8.2.1
 ~~~~~

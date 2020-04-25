@@ -27,7 +27,7 @@ namespace SourceBroker\Restrictfe;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
-use Exception;
+use RuntimeException;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -42,7 +42,7 @@ class RestrictFrontend
     /**
      * Check for all exceptions defiend and block frontend if needed
      *
-     * @throws Exception
+     * @throws RuntimeException
      */
     public function checkExceptionsAndBlockFrontendIfNeeded(): void
     {
@@ -55,7 +55,7 @@ class RestrictFrontend
         if (true === $blockFrontendAccess) {
             $templatePath = GeneralUtility::getFileAbsFileName($this->config['templatePath']);
             if (!file_exists($templatePath)) {
-                throw new Exception('Template file can not be found:' . $templatePath);
+                throw new RuntimeException('Template file can not be found:' . $templatePath);
             }
             // TODO: choose label language based on browser headers
             $renderObj = GeneralUtility::makeInstance(StandaloneView::class);
@@ -275,7 +275,7 @@ class RestrictFrontend
                 foreach ($conditionValues as $conditionValue) {
                     if (is_bool($conditionValue)) {
                         if (true === $conditionValue) {
-                            /** @var \TYPO3\CMS\Core\Registry $registry */
+                            /** @var Registry $registry */
                             $conditionResult = false;
                             if (isset($_COOKIE['tx_restrictfe'])) {
                                 if (true === GeneralUtility::makeInstance(Registry::class)->get(
@@ -296,13 +296,13 @@ class RestrictFrontend
                             }
                         }
                     } else {
-                        throw new \RuntimeException('Extension restrictfe: The $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'restrictfe\'][\'exception\'][\'backendUser\'] must be boolean type.');
+                        throw new RuntimeException('Extension restrictfe: The $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'restrictfe\'][\'exception\'][\'backendUser\'] must be boolean type.');
                     }
                 }
                 break;
 
             default:
-                throw new \RuntimeException('Extension restrictfe: The condition: "' . $conditionType . '" is not supported.');
+                throw new RuntimeException('Extension restrictfe: The condition: "' . $conditionType . '" is not supported.');
         }
         return $conditionResult;
     }
