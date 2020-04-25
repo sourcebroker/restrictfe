@@ -27,13 +27,11 @@ namespace SourceBroker\Restrictfe;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use Exception;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-/**
- * Class Restrict.
- */
 class RestrictFrontend
 {
     /**
@@ -44,28 +42,24 @@ class RestrictFrontend
     /**
      * Check for all exceptions defiend and block frontend if needed
      *
-     * @throws \Exception
+     * @throws Exception
      */
-    public function checkExceptionsAndBlockFrontendIfNeeded()
+    public function checkExceptionsAndBlockFrontendIfNeeded(): void
     {
         $this->config = GeneralUtility::makeInstance(Config::class)->getAll();
-
         $blockFrontendAccess = true;
-        if (isset($this->config['exceptions']) && is_array($this->config['exceptions'])) {
-            if (true === $this->checkRules($this->config['exceptions'])) {
-                $blockFrontendAccess = false;
-            }
+        if (isset($this->config['exceptions']) && is_array($this->config['exceptions'])
+            && true === $this->checkRules($this->config['exceptions'])) {
+            $blockFrontendAccess = false;
         }
-
         if (true === $blockFrontendAccess) {
-            if (file_exists(PATH_site . $this->config['templatePath'])) {
-                $templatePath = $this->config['templatePath'];
-            } else {
-                throw new \Exception('Template file can not be found:' . PATH_site . $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['templatePath']);
+            $templatePath = GeneralUtility::getFileAbsFileName($this->config['templatePath']);
+            if (!file_exists($templatePath)) {
+                throw new Exception('Template file can not be found:' . $templatePath);
             }
             // TODO: choose label language based on browser headers
             $renderObj = GeneralUtility::makeInstance(StandaloneView::class);
-            $renderObj->setTemplatePathAndFilename(PATH_site . $templatePath);
+            $renderObj->setTemplatePathAndFilename($templatePath);
             $renderObj->assign('beLoginLink',
                 GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/index.php?redirect_url=' . GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
 
@@ -85,14 +79,11 @@ class RestrictFrontend
     }
 
     /**
-     * @param $conditionType
-     * @param $conditionValues
-     *
-     * @throws \Exception
-     *
+     * @param string $conditionType
+     * @param mixed $conditionValues
      * @return bool
      */
-    protected function checkCondition($conditionType, $conditionValues)
+    protected function checkCondition(string $conditionType, $conditionValues): bool
     {
         if (!is_array($conditionValues)) {
             $conditionValues = [$conditionValues];
@@ -101,16 +92,13 @@ class RestrictFrontend
         switch ($conditionType) {
             // Special condition. It will just return value of the condition
             case '*':
-                foreach ($conditionValues as $conditionValue) {
-                    $conditionResult = $conditionValue;
-                    break;
-                }
+                $conditionResult = $conditionValues[0];
                 break;
 
             case 'get':
                 foreach ($conditionValues as $conditionValue) {
-                    list($getName, $getValue) = explode('=', $conditionValue);
-                    if (GeneralUtility::_GET(trim($getName)) == trim($getValue)) {
+                    [$getName, $getValue] = explode('=', $conditionValue);
+                    if (GeneralUtility::_GET(trim($getName)) === trim($getValue)) {
                         $conditionResult = true;
                         break;
                     }
@@ -120,8 +108,8 @@ class RestrictFrontend
             case '!get':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    list($getName, $getValue) = explode('=', $conditionValue);
-                    if (GeneralUtility::_GET(trim($getName)) != trim($getValue)) {
+                    [$getName, $getValue] = explode('=', $conditionValue);
+                    if (GeneralUtility::_GET(trim($getName)) !== trim($getValue)) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
@@ -135,8 +123,8 @@ class RestrictFrontend
 
             case 'post':
                 foreach ($conditionValues as $conditionValue) {
-                    list($postName, $postValue) = explode('=', $conditionValue);
-                    if (GeneralUtility::_POST(trim($postName)) == trim($postValue)) {
+                    [$postName, $postValue] = explode('=', $conditionValue);
+                    if (GeneralUtility::_POST(trim($postName)) === trim($postValue)) {
                         $conditionResult = true;
                         break;
                     }
@@ -146,8 +134,8 @@ class RestrictFrontend
             case '!post':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    list($postName, $postValue) = explode('=', $conditionValue);
-                    if (GeneralUtility::_POST(trim($postName)) != trim($postValue)) {
+                    [$postName, $postValue] = explode('=', $conditionValue);
+                    if (GeneralUtility::_POST(trim($postName)) !== trim($postValue)) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
@@ -211,7 +199,7 @@ class RestrictFrontend
 
             case 'sysLanguageUid':
                 foreach ($conditionValues as $conditionValue) {
-                    if ($conditionValue == $GLOBALS['TSFE']->sys_language_uid) {
+                    if ((int)$conditionValue === $GLOBALS['TSFE']->sys_language_uid) {
                         $conditionResult = true;
                         break;
                     }
@@ -221,7 +209,7 @@ class RestrictFrontend
             case '!sysLanguageUid':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    if (intval($conditionValue) !== $GLOBALS['TSFE']->sys_language_uid) {
+                    if ((int)$conditionValue !== $GLOBALS['TSFE']->sys_language_uid) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
@@ -235,7 +223,7 @@ class RestrictFrontend
 
             case 'domain':
                 foreach ($conditionValues as $conditionValue) {
-                    if ($conditionValue == GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY')) {
+                    if ($conditionValue === GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY')) {
                         $conditionResult = true;
                         break;
                     }
@@ -245,7 +233,7 @@ class RestrictFrontend
             case '!domain':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    if ($conditionValue != GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY')) {
+                    if ($conditionValue !== GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY')) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
@@ -259,7 +247,7 @@ class RestrictFrontend
 
             case 'header':
                 foreach ($conditionValues as $conditionValue) {
-                    list($headerName, $headerValue) = explode('=', $conditionValue);
+                    [$headerName, $headerValue] = explode('=', $conditionValue);
                     if (trim($headerValue) === $this->getHeaderValue($headerName)) {
                         $conditionResult = true;
                         break;
@@ -270,7 +258,7 @@ class RestrictFrontend
             case '!header':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    list($headerName, $headerValue) = explode('=', $conditionValue);
+                    [$headerName, $headerValue] = explode('=', $conditionValue);
                     if (trim($headerValue) !== $this->getHeaderValue($headerName)) {
                         $conditionResults[] = true;
                     } else {
@@ -292,7 +280,7 @@ class RestrictFrontend
                             if (isset($_COOKIE['tx_restrictfe'])) {
                                 if (true === GeneralUtility::makeInstance(Registry::class)->get(
                                         'tx_restrictfe',
-                                        intval($_COOKIE['tx_restrictfe']))) {
+                                        (int)$_COOKIE['tx_restrictfe'])) {
                                     $conditionResult = true;
                                 } else {
                                     // Cookie exist but is wrong so unset it.
@@ -308,15 +296,14 @@ class RestrictFrontend
                             }
                         }
                     } else {
-                        throw new \Exception('Extension restrictfe: The $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'restrictfe\'][\'exception\'][\'backendUser\'] must be boolean type.');
+                        throw new \RuntimeException('Extension restrictfe: The $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'restrictfe\'][\'exception\'][\'backendUser\'] must be boolean type.');
                     }
                 }
                 break;
 
             default:
-                throw new \Exception('Extension restrictfe: The condition: "' . $conditionType . '" is not supported.');
+                throw new \RuntimeException('Extension restrictfe: The condition: "' . $conditionType . '" is not supported.');
         }
-
         return $conditionResult;
     }
 
@@ -326,56 +313,49 @@ class RestrictFrontend
      *
      * @return bool
      */
-    protected function checkRules($conditions, $type = 'OR')
+    protected function checkRules($conditions, string $type = 'OR'): bool
     {
         // early return for always true
-        if (in_array('*', array_keys($conditions))) {
+        if (array_key_exists('*', $conditions)) {
             return true;
         }
         $conditionResults = [];
         foreach ($conditions as $conditionType => $conditionValue) {
-            if ($conditionType == 'AND' || $conditionType == 'OR') {
+            if ($conditionType === 'AND' || $conditionType === 'OR') {
                 $conditionResult = $this->checkRules($conditionValue, $conditionType);
             } else {
                 $conditionResult = $this->checkCondition($conditionType, $conditionValue);
             }
             $conditionResults[$conditionType] = $conditionResult;
-            if ('OR' == $type && true === $conditionResult) {
+            if ('OR' === $type && true === $conditionResult) {
                 break;
             }
         }
         $finalResult = false;
         switch ($type) {
             case 'AND':
-                if (count(array_unique(array_values($conditionResults))) === 1 && reset($conditionResults) === true) {
+                if (reset($conditionResults) === true && count(array_unique(array_values($conditionResults))) === 1) {
                     $finalResult = true;
                 }
                 break;
-
             case 'OR':
                 if (count(array_unique(array_values($conditionResults))) === 2
-                    || count(array_unique(array_values($conditionResults))) === 1 && reset($conditionResults) !== false
+                    || (count(array_unique(array_values($conditionResults))) === 1 && reset($conditionResults) !== false)
                 ) {
                     $finalResult = true;
                 }
                 break;
         }
-
         return $finalResult;
     }
 
-    /**
-     * @param string $headerName
-     * @return mixed
-     */
-    protected function getHeaderValue($headerName)
+    protected function getHeaderValue(string $headerName): ?string
     {
         $headerName = 'http_' . str_replace('-', '_', strtolower(trim($headerName)));
         $tmpServer = [];
         foreach ($_SERVER as $key => $value) {
             $tmpServer[str_replace('-', '_', strtolower($key))] = $value;
         }
-
-        return $tmpServer[$headerName];
+        return !empty($tmpServer[$headerName]) ? $tmpServer[$headerName] : null;
     }
 }

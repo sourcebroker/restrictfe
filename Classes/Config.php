@@ -27,19 +27,16 @@ namespace SourceBroker\Restrictfe;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use RuntimeException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-/**
- * Class Restrict.
- */
 class Config
 {
-    public function getAll()
+    public function getAll() : array
     {
         $config = [
-            'templatePath' => ExtensionManagementUtility::siteRelPath('restrictfe') . 'Resources/Private/Templates/Restricted.html',
+            'templatePath' => 'EXT:restrictfe/Resources/Private/Templates/Restricted.html',
             'cookie' => [
                 'expire' => time() + 86400 * 30,
                 'path' => '/',
@@ -56,7 +53,7 @@ class Config
         // Merge external config with default conifg
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe'])) {
             if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exeptions']) || !empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exception'])) {
-                throw new \Exception('You have typo in config name. You set "exeptions" or "exception" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
+                throw new RuntimeException('You have typo in config name. You set "exeptions" or "exception" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
             }
             ArrayUtility::mergeRecursiveWithOverrule(
                 $config,
@@ -65,7 +62,7 @@ class Config
         }
 
         if (isset($config['enable'])) {
-            throw new \Exception('Extension restrictfe: The $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'restrictfe\'][\'enable\'] is deprecated. Read docs on https://github.com/sourcebroker/restrictfe');
+            throw new RuntimeException('Extension restrictfe: The $GLOBALS[\'TYPO3_CONF_VARS\'][\'EXTCONF\'][\'restrictfe\'][\'enable\'] is deprecated. Read docs on https://github.com/sourcebroker/restrictfe');
         }
         return $config;
     }
