@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+master
+~~~~~~
+
+a) [TASK] Increase TYPO3 to 10.
+
 8.2.1
 ~~~~~
 
