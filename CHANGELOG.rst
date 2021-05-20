@@ -6,6 +6,7 @@ master
 
 a) [TASK] Increase support to TYPO3 11 and drop support for TYPO3 8 and 9.
 b) [BUGFIX] Add "extension-key" for TYPO3.
+c) [TASK] Add ddev.
 
 9.0.0
 ~~~~~
