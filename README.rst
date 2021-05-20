@@ -1,9 +1,6 @@
 TYPO3 Extension ``restrictfe``
 ==============================
 
-    .. image:: https://styleci.io/repos/80206848/shield?branch=master
-        :target: https://styleci.io/repos/80206848
-
     .. image:: https://poser.pugx.org/sourcebroker/restrictfe/d/monthly
         :target: https://packagist.org/packages/sourcebroker/restrictfe
 

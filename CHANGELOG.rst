@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+master
+~~~~~
+
+a) [TASK] Increase support to TYPO3 11 and drop support for TYPO3 8 and 9.
+
 9.0.0
 ~~~~~
 

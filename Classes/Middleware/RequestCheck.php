@@ -1,52 +1,52 @@
 <?php
+declare(strict_types=1);
 
-namespace SourceBroker\Restrictfe;
+namespace SourceBroker\Restrictfe\Middleware;
 
-/***************************************************************
- *
- *  Copyright notice
- *
- *  (c) 2017 Krystian Szymukowicz
- *
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
-
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use RuntimeException;
+use SourceBroker\Restrictfe\Configuration\ConfigBuilder;
+use Throwable;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
-class RestrictFrontend
+class RequestCheck implements MiddlewareInterface
 {
-    /**
-     * @var array
-     */
-    protected $config = [];
+    protected ConfigBuilder $configBuilder;
+    private StandaloneView $fluidStandalone;
+    private array $config;
+
+    public function __construct(ConfigBuilder $configBuilder, StandaloneView $fluidStandalone)
+    {
+        $this->configBuilder = $configBuilder;
+        $this->config = $this->configBuilder->get();
+        $this->fluidStandalone = $fluidStandalone;
+    }
 
     /**
-     * Check for all exceptions defiend and block frontend if needed
+     * @param ServerRequestInterface $request
+     * @param RequestHandlerInterface $handler
+     *
+     * @return ResponseInterface
+     * @throws Throwable
+     */
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $this->checkExceptionsAndBlockFrontendIfNeeded();
+        return $handler->handle($request);
+    }
+
+    /**
+     * Check for all exceptions defined and block frontend if needed
      *
      * @throws RuntimeException
      */
     public function checkExceptionsAndBlockFrontendIfNeeded(): void
     {
-        $this->config = GeneralUtility::makeInstance(Config::class)->getAll();
         $blockFrontendAccess = true;
         if (isset($this->config['exceptions']) && is_array($this->config['exceptions'])
             && true === $this->checkRules($this->config['exceptions'])) {
@@ -57,10 +57,8 @@ class RestrictFrontend
             if (!file_exists($templatePath)) {
                 throw new RuntimeException('Template file can not be found:' . $templatePath);
             }
-            // TODO: choose label language based on browser headers
-            $renderObj = GeneralUtility::makeInstance(StandaloneView::class);
-            $renderObj->setTemplatePathAndFilename($templatePath);
-            $renderObj->assign('beLoginLink',
+            $this->fluidStandalone->setTemplatePathAndFilename($templatePath);
+            $this->fluidStandalone->assign('beLoginLink',
                 GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/index.php?redirect_url=' . GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
 
             header('X-Robots-Tag: noindex,nofollow');
@@ -73,8 +71,8 @@ class RestrictFrontend
             header('Pragma: no-cache');
             header('Expires: 0');
 
-            echo $renderObj->render();
-            die();
+            echo $this->fluidStandalone->render();
+            exit();
         }
     }
 

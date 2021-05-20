@@ -1,6 +1,7 @@
 <?php
+declare(strict_types=1);
 
-namespace SourceBroker\Restrictfe;
+namespace SourceBroker\Restrictfe\Configuration;
 
 /***************************************************************
  *
@@ -31,18 +32,18 @@ use RuntimeException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class Config
+class ConfigBuilder
 {
-    public function getAll() : array
+    public function get() : array
     {
         $config = [
             'templatePath' => 'EXT:restrictfe/Resources/Private/Templates/Restricted.html',
             'cookie' => [
                 'expire' => time() + 86400 * 30,
                 'path' => '/',
-                'domain' => null,
+                'domain' => '',
                 'secure' => ((int)$GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] === 1 || GeneralUtility::getIndpEnv('TYPO3_SSL')),
-                'httponly' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieHttpOnly'],
+                'httponly' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieHttpOnly'] ?? false,
             ],
             'exceptions' => [
                 'ip' => '127.0.0.1',
