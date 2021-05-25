@@ -8,17 +8,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\RedirectResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BackendRedirect implements MiddlewareInterface
 {
-    /**
-     * @var Context
-     */
-    protected $context;
+    protected Context $context;
 
     public function __construct(Context $context)
     {

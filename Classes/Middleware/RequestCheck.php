@@ -19,6 +19,7 @@ class RequestCheck implements MiddlewareInterface
     protected ConfigBuilder $configBuilder;
     private StandaloneView $fluidStandalone;
     private array $config;
+    private ServerRequestInterface $request;
 
     public function __construct(ConfigBuilder $configBuilder, StandaloneView $fluidStandalone)
     {
@@ -36,14 +37,13 @@ class RequestCheck implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $this->request = $request;
         $this->checkExceptionsAndBlockFrontendIfNeeded();
         return $handler->handle($request);
     }
 
     /**
      * Check for all exceptions defined and block frontend if needed
-     *
-     * @throws RuntimeException
      */
     public function checkExceptionsAndBlockFrontendIfNeeded(): void
     {
@@ -58,8 +58,15 @@ class RequestCheck implements MiddlewareInterface
                 throw new RuntimeException('Template file can not be found:' . $templatePath);
             }
             $this->fluidStandalone->setTemplatePathAndFilename($templatePath);
-            $this->fluidStandalone->assign('beLoginLink',
-                GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/index.php?redirect_url=' . GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'));
+            $this->fluidStandalone->assign('beLoginLink', GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/');
+            setcookie(
+                'tx_restrictfe_redirect',
+                GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'),
+                0,
+                '/',
+                $this->config['cookie']['domain'],
+                true,
+                true);
 
             header('X-Robots-Tag: noindex,nofollow');
             header('HTTP/1.0 403 Access Forbidden');
@@ -275,10 +282,15 @@ class RequestCheck implements MiddlewareInterface
                         if (true === $conditionValue) {
                             /** @var Registry $registry */
                             $conditionResult = false;
-                            if (isset($_COOKIE['tx_restrictfe'])) {
+                            if($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['beLogged'] === true) {
+                                $conditionResult = true;
+                            }
+                            $cookieParams = $this->request->getCookieParams();
+                            if (isset($cookieParams['tx_restrictfe'])) {
                                 if (true === GeneralUtility::makeInstance(Registry::class)->get(
                                         'tx_restrictfe',
-                                        (int)$_COOKIE['tx_restrictfe'])) {
+                                        (int)$cookieParams['tx_restrictfe'])
+                                ) {
                                     $conditionResult = true;
                                 } else {
                                     // Cookie exist but is wrong so unset it.

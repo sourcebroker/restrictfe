@@ -9,13 +9,13 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use SourceBroker\Restrictfe\Configuration\ConfigBuilder;
+use Symfony\Component\HttpFoundation\Cookie;
 use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BackendUserCheck implements MiddlewareInterface
 {
-
     protected ConfigBuilder $configBuilder;
     private array $config;
 
@@ -34,27 +34,41 @@ class BackendUserCheck implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $frontendBackendUserAuthentication = $GLOBALS['BE_USER'];
-        if ($frontendBackendUserAuthentication instanceof FrontendBackendUserAuthentication) {
-            if (!empty($frontendBackendUserAuthentication->user)
-                && !empty($frontendBackendUserAuthentication->user['uid'])
-                && !isset($_COOKIE['tx_restrictfe'])) {
-                $cookieValue = (string)GeneralUtility::md5int(
-                    substr($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'], random_int(1, 5), random_int(5, 10)) . time()
-                );
-                setcookie(
-                    'tx_restrictfe',
-                    $cookieValue,
-                    $this->config['cookie']['expire'],
-                    $this->config['cookie']['path'],
-                    $this->config['cookie']['domain'],
-                    $this->config['cookie']['secure'],
-                    $this->config['cookie']['httponly']);
-                GeneralUtility::makeInstance(Registry::class)->set('tx_restrictfe', $cookieValue, true);
-            }
-            if (!empty($frontendBackendUserAuthentication->user['tx_restrictfe_clearbesession'])) {
-                $frontendBackendUserAuthentication->removeCookie($frontendBackendUserAuthentication::getCookieName());
-            }
+        $frontendBackendUser = $GLOBALS['BE_USER'];
+        $cookieParams = $request->getCookieParams();
+        if (!empty($frontendBackendUser->user)
+            && !empty($frontendBackendUser->user['uid'])
+            && !isset($cookieParams['tx_restrictfe'])) {
+            $cookieValue = (string)GeneralUtility::md5int(
+                substr($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'], random_int(1, 5), random_int(5, 10)) . time()
+            );
+            GeneralUtility::makeInstance(Registry::class)->set('tx_restrictfe', $cookieValue, true);
+            setcookie(
+                'tx_restrictfe',
+                $cookieValue,
+                $this->config['cookie']['expire'],
+                $this->config['cookie']['path'],
+                $this->config['cookie']['domain'],
+                $this->config['cookie']['secure'],
+                $this->config['cookie']['httponly']
+            );
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['beLogged'] = true;
+
+//          TODO: so far code below does not set cookie
+
+//                $cookie = new Cookie(
+//                    'tx_restrictfe',
+//                    $cookieValue,
+//                    $this->config['cookie']['expire'],
+//                    $this->config['cookie']['path'],
+//                    $this->config['cookie']['domain'],
+//                    $this->config['cookie']['secure'],
+//                );
+//                $response = $handler->handle($request);
+//                return $response->withAddedHeader('set-cookie', $cookie->__toString());
+        }
+        if (!empty($frontendBackendUser->user['tx_restrictfe_clearbesession'])) {
+            $frontendBackendUser->removeCookie($frontendBackendUser::getCookieName());
         }
         return $handler->handle($request);
     }
