@@ -1,8 +1,8 @@
 Changelog
 ---------
 
-master
-~~~~~
+10.0.0
+~~~~~~
 
 a) [TASK] Increase support to TYPO3 11 and drop support for TYPO3 8 and 9.
 b) [BUGFIX] Add "extension-key" for TYPO3.
