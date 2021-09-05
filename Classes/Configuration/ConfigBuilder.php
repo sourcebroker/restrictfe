@@ -28,12 +28,16 @@ namespace SourceBroker\Restrictfe\Configuration;
  *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
 
+use JsonException;
 use RuntimeException;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ConfigBuilder
 {
+    /**
+     * @throws JsonException
+     */
     public function get() : array
     {
         $config = [
@@ -54,7 +58,7 @@ class ConfigBuilder
         // Merge external config with default conifg
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe'])) {
             if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exeptions']) || !empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exception'])) {
-                throw new RuntimeException('You have typo in config name. You set "exeptions" or "exception" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']));
+                throw new RuntimeException('You have typo in config name. You set "exeptions" or "exception" instead of "exceptions". ' . json_encode($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe'], JSON_THROW_ON_ERROR));
             }
             ArrayUtility::mergeRecursiveWithOverrule(
                 $config,

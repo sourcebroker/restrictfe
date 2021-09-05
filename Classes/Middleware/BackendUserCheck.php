@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace SourceBroker\Restrictfe\Middleware;
 
+use JsonException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use SourceBroker\Restrictfe\Configuration\ConfigBuilder;
-use Symfony\Component\HttpFoundation\Cookie;
-use TYPO3\CMS\Backend\FrontendBackendUserAuthentication;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -19,6 +18,9 @@ class BackendUserCheck implements MiddlewareInterface
     protected ConfigBuilder $configBuilder;
     private array $config;
 
+    /**
+     * @throws JsonException
+     */
     public function __construct(ConfigBuilder $configBuilder)
     {
         $this->configBuilder = $configBuilder;

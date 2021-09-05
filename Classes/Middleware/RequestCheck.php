@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SourceBroker\Restrictfe\Middleware;
 
+use TYPO3\CMS\Core\Context\Context;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -204,7 +205,7 @@ class RequestCheck implements MiddlewareInterface
 
             case 'sysLanguageUid':
                 foreach ($conditionValues as $conditionValue) {
-                    if ((int)$conditionValue === $GLOBALS['TSFE']->sys_language_uid) {
+                    if ((int)$conditionValue === GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id')) {
                         $conditionResult = true;
                         break;
                     }
@@ -214,7 +215,7 @@ class RequestCheck implements MiddlewareInterface
             case '!sysLanguageUid':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    if ((int)$conditionValue !== $GLOBALS['TSFE']->sys_language_uid) {
+                    if ((int)$conditionValue !== GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id')) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
