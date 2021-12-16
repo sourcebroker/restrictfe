@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+10.0.1
+~~~~~~
+
+a) [BUGFIX] Fix wrong value as parameter of setcookie method.
+
 10.0.0
 ~~~~~~
 

@@ -297,7 +297,7 @@ class RequestCheck implements MiddlewareInterface
                                     // Cookie exist but is wrong so unset it.
                                     setcookie(
                                         'tx_restrictfe',
-                                        null,
+                                        '',
                                         $this->config['cookie']['expire'],
                                         $this->config['cookie']['path'],
                                         $this->config['cookie']['domain'],
