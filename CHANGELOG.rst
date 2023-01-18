@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+10.0.2
+~~~~~~
+
+a) [BUGFIX] Add all private network IP addresses as allowed to see website. (ddev on local issue)
+
 10.0.1
 ~~~~~~
 

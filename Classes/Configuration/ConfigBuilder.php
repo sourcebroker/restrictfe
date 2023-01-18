@@ -38,7 +38,7 @@ class ConfigBuilder
     /**
      * @throws JsonException
      */
-    public function get() : array
+    public function get(): array
     {
         $config = [
             'templatePath' => 'EXT:restrictfe/Resources/Private/Templates/Restricted.html',
@@ -50,7 +50,7 @@ class ConfigBuilder
                 'httponly' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieHttpOnly'] ?? false,
             ],
             'exceptions' => [
-                'ip' => '127.0.0.1',
+                'ip' => ['127.0.0.1', '192.168.0.0/16', '172.16.0.0/12', '10.0.0.0/8'],
                 'backendUser' => true,
             ],
         ];
