@@ -5,6 +5,7 @@ Changelog
 ~~~~~~
 
 a) [BUGFIX] Add all private network IP addresses as allowed to see website. (ddev on local issue)
+b) [TASK] Update composer.json allowed plugins.
 
 10.0.1
 ~~~~~~
