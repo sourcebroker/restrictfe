@@ -46,8 +46,8 @@ class ConfigBuilder
                 'expire' => time() + 86400 * 30,
                 'path' => '/',
                 'domain' => '',
-                'secure' => ((int)$GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieSecure'] === 1 || GeneralUtility::getIndpEnv('TYPO3_SSL')),
-                'httponly' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['cookieHttpOnly'] ?? false,
+                'secure' => GeneralUtility::getIndpEnv('TYPO3_SSL'),
+                'httponly' => true,
             ],
             'exceptions' => [
                 'ip' => ['127.0.0.1', '192.168.0.0/16', '172.16.0.0/12', '10.0.0.0/8'],
