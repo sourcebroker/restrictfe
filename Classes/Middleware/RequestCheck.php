@@ -283,7 +283,10 @@ class RequestCheck implements MiddlewareInterface
                         if (true === $conditionValue) {
                             /** @var Registry $registry */
                             $conditionResult = false;
-                            if($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['beLogged'] === true) {
+                            if (
+                                isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['beLogged'])
+                                && $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['beLogged'] === true
+                            ) {
                                 $conditionResult = true;
                             }
                             $cookieParams = $this->request->getCookieParams();

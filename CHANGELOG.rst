@@ -1,6 +1,16 @@
 Changelog
 ---------
 
+10.0.4
+~~~~~~
+
+a) [BUGFIX] Check if array value exist before reading.
+
+10.0.3
+~~~~~~
+
+a) [BUGFIX] Drop reading of settings BE/cookieSecure and SYS/cookieHttpOnly that does no longer exist in TYPO3 10 and 11.
+
 10.0.2
 ~~~~~~
 
