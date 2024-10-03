@@ -155,7 +155,7 @@ class RequestCheck implements MiddlewareInterface
 
             case 'requestUri':
                 foreach ($conditionValues as $conditionValue) {
-                    if (GeneralUtility::isFirstPartOfStr(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'),
+                    if (str_starts_with(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'),
                         trim($conditionValue))) {
                         $conditionResult = true;
                         break;
@@ -166,7 +166,7 @@ class RequestCheck implements MiddlewareInterface
             case '!requestUri':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    if (!GeneralUtility::isFirstPartOfStr(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'),
+                    if (!str_starts_with(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'),
                         trim($conditionValue))) {
                         $conditionResults[] = true;
                     } else {
@@ -205,7 +205,8 @@ class RequestCheck implements MiddlewareInterface
 
             case 'sysLanguageUid':
                 foreach ($conditionValues as $conditionValue) {
-                    if ((int)$conditionValue === GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id')) {
+                    if ((int)$conditionValue === GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language',
+                            'id')) {
                         $conditionResult = true;
                         break;
                     }
@@ -215,7 +216,8 @@ class RequestCheck implements MiddlewareInterface
             case '!sysLanguageUid':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    if ((int)$conditionValue !== GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language', 'id')) {
+                    if ((int)$conditionValue !== GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language',
+                            'id')) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;

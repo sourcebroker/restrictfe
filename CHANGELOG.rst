@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+11.0.0
+~~~~~~
+
+a) [TASK][BREAKING] Drop support for TYPO3 10. Increase PHP req to 8+.
+
 10.1.0
 ~~~~~~
 
