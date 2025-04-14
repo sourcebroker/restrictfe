@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace SourceBroker\Restrictfe\Middleware;
 
-use TYPO3\CMS\Core\Context\Context;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -13,20 +12,17 @@ use SourceBroker\Restrictfe\Configuration\ConfigBuilder;
 use Throwable;
 use TYPO3\CMS\Core\Registry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
 
 class RequestCheck implements MiddlewareInterface
 {
     protected ConfigBuilder $configBuilder;
-    private StandaloneView $fluidStandalone;
-    private array $config;
-    private ServerRequestInterface $request;
+    protected array $config;
+    protected ServerRequestInterface $request;
 
-    public function __construct(ConfigBuilder $configBuilder, StandaloneView $fluidStandalone)
+    public function __construct(ConfigBuilder $configBuilder)
     {
         $this->configBuilder = $configBuilder;
         $this->config = $this->configBuilder->get();
-        $this->fluidStandalone = $fluidStandalone;
     }
 
     /**
@@ -58,8 +54,13 @@ class RequestCheck implements MiddlewareInterface
             if (!file_exists($templatePath)) {
                 throw new RuntimeException('Template file can not be found:' . $templatePath);
             }
-            $this->fluidStandalone->setTemplatePathAndFilename($templatePath);
-            $this->fluidStandalone->assign('beLoginLink', GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/');
+            $beLoginLink = GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . 'typo3/';
+            $templateContent = file_get_contents($templatePath);
+            if ($templateContent === false) {
+                throw new RuntimeException('Could not read template file content:' . $templatePath);
+            }
+            $outputContent = str_replace('{beLoginLink}', $beLoginLink, $templateContent);
+
             setcookie(
                 'tx_restrictfe_redirect',
                 GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL'),
@@ -79,7 +80,7 @@ class RequestCheck implements MiddlewareInterface
             header('Pragma: no-cache');
             header('Expires: 0');
 
-            echo $this->fluidStandalone->render();
+            echo $outputContent;
             exit();
         }
     }
@@ -203,32 +204,6 @@ class RequestCheck implements MiddlewareInterface
                 }
                 break;
 
-            case 'sysLanguageUid':
-                foreach ($conditionValues as $conditionValue) {
-                    if ((int)$conditionValue === GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language',
-                            'id')) {
-                        $conditionResult = true;
-                        break;
-                    }
-                }
-                break;
-
-            case '!sysLanguageUid':
-                $conditionResults = [];
-                foreach ($conditionValues as $conditionValue) {
-                    if ((int)$conditionValue !== GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('language',
-                            'id')) {
-                        $conditionResults[] = true;
-                    } else {
-                        $conditionResults[] = false;
-                    }
-                }
-                $uniqueConditionResults = array_unique($conditionResults);
-                if (1 === count($uniqueConditionResults) && true === reset($uniqueConditionResults)) {
-                    $conditionResult = true;
-                }
-                break;
-
             case 'domain':
                 foreach ($conditionValues as $conditionValue) {
                     if ($conditionValue === GeneralUtility::getIndpEnv('TYPO3_HOST_ONLY')) {
@@ -283,7 +258,6 @@ class RequestCheck implements MiddlewareInterface
                 foreach ($conditionValues as $conditionValue) {
                     if (is_bool($conditionValue)) {
                         if (true === $conditionValue) {
-                            /** @var Registry $registry */
                             $conditionResult = false;
                             if (
                                 isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['beLogged'])

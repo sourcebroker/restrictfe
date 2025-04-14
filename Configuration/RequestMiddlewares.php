@@ -13,11 +13,9 @@ return [
         ],
         'sourcebroker/restrictfe/request-check' => [
             'target' => \SourceBroker\Restrictfe\Middleware\RequestCheck::class,
-            'after' => [
-                'typo3/cms-frontend/prepare-tsfe-rendering',
-            ],
             'before' => [
-                'typo3/cms-frontend/shortcut-and-mountpoint-redirect',
+                'staticfilecache/fallback',
+                'typo3/cms-frontend/timetracker',
             ],
         ],
     ],
