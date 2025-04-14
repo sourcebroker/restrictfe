@@ -7,6 +7,13 @@ Changelog
 a) [BUGFIX] Fix "clear BE session" functionality to allow BE accounts to authenticate only and then be clear
    to see staging instance content without access to BE.
 
+b) [TASK][BREAKING] Move RequestCheck before'typo3/cms-frontend/timetracker' and especially 'staticfilecache/fallback'
+   to show protecting screen before staticfilecache returns it from cache. Remove standaloneView because edge case
+   problems to use it at early stage. Remove "sysLanguageUid" condition as sysLanguageUid is not available at
+   so early stage yet. Language condition must be done by part of uri condition now.
+
+c) [TASK] Bring back support for PHP 7.4 as TYPO3 11 can still use PHP 7.4.
+
 11.1.0
 ~~~~~~
 

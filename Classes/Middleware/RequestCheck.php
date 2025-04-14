@@ -156,8 +156,7 @@ class RequestCheck implements MiddlewareInterface
 
             case 'requestUri':
                 foreach ($conditionValues as $conditionValue) {
-                    if (str_starts_with(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'),
-                        trim($conditionValue))) {
+                    if (strpos(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'), trim($conditionValue)) === 0) {
                         $conditionResult = true;
                         break;
                     }
@@ -167,8 +166,7 @@ class RequestCheck implements MiddlewareInterface
             case '!requestUri':
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
-                    if (!str_starts_with(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'),
-                        trim($conditionValue))) {
+                    if (strpos(GeneralUtility::getIndpEnv('TYPO3_SITE_SCRIPT'), trim($conditionValue)) !== 0) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
