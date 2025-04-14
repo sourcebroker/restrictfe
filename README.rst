@@ -48,20 +48,6 @@ regular frontend users. At the same time is must be accessible in
 frontend for logged backend users which must be able to edit content on
 that hidden part.
 
-The best example is multilanguage website. Lets assume there is
-production with only one language - let it be English. After few months
-website owner decided to have new language - Chines. The translation
-will be done on live directly and will be long process - like few weeks.
-During that process client must check content on frontend but at the
-same time the translated website must be inaccessible for regular users.
-The solution is to use restrictfe and set it to show all frontend except
-sysLanguageUid=1 (the uid of new language). In such case even if some
-frontend user will switch to new language by forcing L parameter in url
-address then he will see warning "Login to see the content of this
-page". The content of the warning can be change by setting path to Fluid
-template so you can show whatever you like when frontend user is
-requesting restricted content.
-
 Installation
 ------------
 
@@ -280,35 +266,19 @@ requestUri
     ];
 
 
-sysLanguageUid
-++++++++++++++
-
--  | *Argument*
-   | uid of language in TYPO3 (integer)
-
--  | *Note*
-   | You can negate this condition with !sysLanguageUid.
-
--  | *Example*
-   | Allow frontend access to all except traffic to language with uid 1.
-     Useful on production instance when we want to add and translate new language.
-
-   ::
-
-     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = ['!sysLanguageUid' => 1];
 
 Configuration examples
 ----------------------
 
 Some most useful real live configuration examples:
 
-Production instance that must have sysLanguageUid=1 not avaliable public
+Production instance that must have language /fr/ not available public
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['restrictfe']['exceptions'] = [
-            '!sysLanguageUid' => 1,
+            '!requestUri' => 'fr/',
     ];
 
 Production instance that must have domain "sub.example.com" not avaliable public
