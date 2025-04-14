@@ -1,6 +1,12 @@
 Changelog
 ---------
 
+12.0.0
+------
+
+a) [BUGFIX] Fix "clear BE session" functionality to allow BE accounts to authenticate only and then be clear
+   to see staging instance content without access to BE.
+
 11.1.0
 ~~~~~~
 

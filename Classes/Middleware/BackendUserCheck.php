@@ -36,10 +36,10 @@ class BackendUserCheck implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $frontendBackendUser = $GLOBALS['BE_USER'];
+        $backendUser = $GLOBALS['BE_USER'];
         $cookieParams = $request->getCookieParams();
-        if (!empty($frontendBackendUser->user)
-            && !empty($frontendBackendUser->user['uid'])
+        if (!empty($backendUser->user)
+            && !empty($backendUser->user['uid'])
             && !isset($cookieParams['tx_restrictfe'])) {
             $cookieValue = (string)GeneralUtility::md5int(
                 substr($GLOBALS['TYPO3_CONF_VARS']['SYS']['encryptionKey'], random_int(1, 5), random_int(5, 10)) . time()
@@ -69,8 +69,8 @@ class BackendUserCheck implements MiddlewareInterface
 //                $response = $handler->handle($request);
 //                return $response->withAddedHeader('set-cookie', $cookie->__toString());
         }
-        if (!empty($frontendBackendUser->user['tx_restrictfe_clearbesession'])) {
-            $frontendBackendUser->removeCookie($frontendBackendUser::getCookieName());
+        if (!empty($backendUser->user['tx_restrictfe_clearbesession'])) {
+            $backendUser->removeCookie($backendUser::getCookieName());
         }
         return $handler->handle($request);
     }

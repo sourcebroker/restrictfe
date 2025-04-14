@@ -22,6 +22,15 @@ return [
         ],
     ],
     'backend' => [
+        'sourcebroker/restrictfe/backend-user-check' => [
+            'target' => \SourceBroker\Restrictfe\Middleware\BackendUserCheck::class,
+            'after' => [
+                'typo3/cms-backend/authentication',
+            ],
+            'before' => [
+                'typo3/cms-backend/output-compression',
+            ]
+        ],
         'sourcebroker/restrictfe/redirect-backend' => [
             'target' => \SourceBroker\Restrictfe\Middleware\BackendRedirect::class,
             'after' => [
