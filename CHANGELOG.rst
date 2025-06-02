@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+12.0.1
+------
+
+a) [BUGFIX] Make reading GET and POST compatible with TYPO3 v13
+
 12.0.0
 ------
 

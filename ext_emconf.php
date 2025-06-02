@@ -7,11 +7,11 @@ $EM_CONF[$_EXTKEY] = [
     'author_email'     => 'office@inscript.dev',
     'author_company'   => 'Inscript',
     'category'         => 'fe',
-    'version'          => '11.0.0',
+    'version'          => '12.0.1',
     'state'            => 'stable',
     'constraints'      => [
         'depends' => [
-            'typo3' => '11.5.0-12.5.999',
+            'typo3' => '11.5.0-13.4.999',
         ],
         'conflicts' => [],
         'suggests'  => [],

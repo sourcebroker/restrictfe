@@ -105,7 +105,7 @@ class RequestCheck implements MiddlewareInterface
             case 'get':
                 foreach ($conditionValues as $conditionValue) {
                     [$getName, $getValue] = explode('=', $conditionValue);
-                    if (GeneralUtility::_GET(trim($getName)) === trim($getValue)) {
+                    if (($this->request->getQueryParams()[trim($getName)] ?? null)  === trim($getValue)) {
                         $conditionResult = true;
                         break;
                     }
@@ -116,7 +116,7 @@ class RequestCheck implements MiddlewareInterface
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
                     [$getName, $getValue] = explode('=', $conditionValue);
-                    if (GeneralUtility::_GET(trim($getName)) !== trim($getValue)) {
+                    if (($this->request->getQueryParams()[trim($getName)] ?? null)  !== trim($getValue)) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
@@ -131,7 +131,7 @@ class RequestCheck implements MiddlewareInterface
             case 'post':
                 foreach ($conditionValues as $conditionValue) {
                     [$postName, $postValue] = explode('=', $conditionValue);
-                    if (GeneralUtility::_POST(trim($postName)) === trim($postValue)) {
+                    if (($this->request->getParsedBody()[trim($postName)] ?? null)  === trim($postValue)) {
                         $conditionResult = true;
                         break;
                     }
@@ -142,7 +142,7 @@ class RequestCheck implements MiddlewareInterface
                 $conditionResults = [];
                 foreach ($conditionValues as $conditionValue) {
                     [$postName, $postValue] = explode('=', $conditionValue);
-                    if (GeneralUtility::_POST(trim($postName)) !== trim($postValue)) {
+                    if (($this->request->getParsedBody()[trim($postName)] ?? null)  !== trim($postValue)) {
                         $conditionResults[] = true;
                     } else {
                         $conditionResults[] = false;
