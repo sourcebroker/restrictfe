@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+12.1.0
+~~~~~~
+
+a) [TASK] Increase support to TYPO3 14
+
 12.0.1
 ------
 
